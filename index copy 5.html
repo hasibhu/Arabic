@@ -321,7 +321,7 @@
             width: 28px;
             height: 28px;
             cursor: pointer;
-            font-size: 1.6rem;
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -336,19 +336,6 @@
 
         .word-breakdown-modal .modal-content {
             max-width: 500px;
-            max-height: 85vh;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding-top: 16px;
-        }
-
-        .word-breakdown-modal .modal-close {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            float: right;
-            margin-bottom: 8px;
-            margin-left: 8px;
         }
 
         .word-breakdown-header {
@@ -1662,7 +1649,7 @@
                 <div class="shobdo-item">
                     <span class="shobdo-arabic">${word.arabic}</span>
                     <span class="shobdo-bengali">${word.bengali} (${word.meaning})</span>
-                    <button class="shobdo-btn-view" onclick="openWordBreakdown('${word.arabic}', '${word.bengali}', '${data.letter}')">👉</button>
+                    <button class="shobdo-btn-view" onclick="openWordBreakdown('${word.arabic}', '${word.bengali}', '${data.letter}')">🔍</button>
                 </div>
             `).join('');
             
