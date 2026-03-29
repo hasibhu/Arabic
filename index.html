@@ -242,6 +242,67 @@
             transform: scale(1.05);
         }
 
+        .shobdo-btn {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            font-family: 'Noto Sans Bengali', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            background: rgba(26, 162, 46, 0.9);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .shobdo-btn:hover {
+            background: #1AA22E;
+            transform: scale(1.05);
+        }
+
+        .shobdo-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .shobdo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            background: #F7F5F2;
+            border-radius: 8px;
+            gap: 12px;
+        }
+
+        .shobdo-arabic {
+            font-family: 'Amiri', serif;
+            font-size: 1.3rem;
+            color: #1A1A2E;
+            direction: ltr;
+            min-width: 60px;
+        }
+
+        .shobdo-bengali {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            font-size: 1rem;
+            color: #16213E;
+            flex: 1;
+        }
+
+        .shobdo-meaning {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            font-size: 0.85rem;
+            color: #666;
+            text-align: right;
+            min-width: 60px;
+        }
+
         .modal-overlay {
             display: none;
             position: fixed;
@@ -377,7 +438,7 @@
         }
 
         .full-table-modal .modal-content {
-            max-width: 800px;
+            max-width: 900px;
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -388,7 +449,33 @@
             font-weight: 600;
             color: #1A1A2E;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
+        }
+
+        .full-table-subtitle {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            font-size: 1rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #E8E4E0;
+        }
+
+        .table-section {
+            margin-bottom: 24px;
+        }
+
+        .table-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .table-label {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #E94560;
+            margin-bottom: 8px;
         }
 
         .harakat-table {
@@ -593,7 +680,7 @@
 
     <div class="modal-overlay" id="modal">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">✕</button>
+            <button class="modal-close" onclick="closeHarakatModal()">✕</button>
             <div class="modal-header">
                 <div class="modal-letter" id="modal-letter"></div>
                 <div class="modal-letter-name" id="modal-letter-name"></div>
@@ -603,21 +690,50 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="shobdoModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeShobdoModal()">✕</button>
+            <div class="modal-header">
+                <div class="modal-letter" id="shobdo-modal-letter"></div>
+                <div class="modal-letter-name" id="shobdo-modal-letter-name"></div>
+            </div>
+            <div class="modal-title">ছোট শব্দমালা</div>
+            <div class="shobdo-list" id="shobdo-list"></div>
+        </div>
+    </div>
+
     <div class="modal-overlay full-table-modal" id="fullTableModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeFullTable()">✕</button>
-            <div class="full-table-title">আরবি অক্ষরের হরকাত সারণি</div>
-            <table class="harakat-table" id="harakatTable">
-                <thead>
-                    <tr>
-                        <th>অক্ষর</th>
-                        <th>জবর (া)</th>
-                        <th>জের (ি)</th>
-                        <th>পেশ (ু)</th>
-                    </tr>
-                </thead>
-                <tbody id="harakatTableBody"></tbody>
-            </table>
+            <div class="full-table-title">আরবি অক্ষরের সম্পূর্ণ সারণি</div>
+            
+            <div class="table-section">
+                <div class="table-label">হরকাত (Harakat)</div>
+                <table class="harakat-table" id="harakatTable">
+                    <thead>
+                        <tr>
+                            <th>অক্ষর</th>
+                            <th>জবর (া)</th>
+                            <th>জের (ি)</th>
+                            <th>পেশ (ু)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="harakatTableBody"></tbody>
+                </table>
+            </div>
+            
+            <div class="table-section">
+                <div class="table-label">ছোট শব্দমালা (Small Words)</div>
+                <table class="harakat-table" id="shobdoTable">
+                    <thead>
+                        <tr>
+                            <th>অক্ষর</th>
+                            <th style="text-align: left;">শব্দসমূহ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="shobdoTableBody"></tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -631,7 +747,12 @@
                 bengali: 'কোনো বাংলা সমতুল্য নেই',
                 fatha: 'أَ', fathaBn: 'আ',
                 kasra: 'أِ', kasraBn: 'ই',
-                damma: 'أُ', dammaBn: 'উ'
+                damma: 'أُ', dammaBn: 'উ',
+                words: [
+                    { arabic: 'أَمْر', bengali: 'আমর', meaning: 'কাজ' },
+                    { arabic: 'أَب', bengali: 'আব', meaning: 'পিতা' },
+                    { arabic: 'أُخْر', bengali: 'উখর', meaning: 'শেষ' }
+                ]
             },
             { 
                 arabic: 'ا', 
@@ -641,7 +762,12 @@
                 bengali: 'দীর্ঘ "আ"',
                 fatha: 'اَ', fathaBn: 'আ',
                 kasra: 'اِ', kasraBn: 'ই',
-                damma: 'اُ', dammaBn: 'উ'
+                damma: 'اُ', dammaBn: 'উ',
+                words: [
+                    { arabic: 'آمِن', bengali: 'আমিন', meaning: 'নিরাপদ' },
+                    { arabic: 'آدَم', bengali: 'আদম', meaning: 'মানব' },
+                    { arabic: 'آنَس', bengali: 'আনাস', meaning: 'চেনা' }
+                ]
             },
             { 
                 arabic: 'ب', 
@@ -651,7 +777,13 @@
                 bengali: 'সাধারণ "ব"',
                 fatha: 'بَ', fathaBn: 'বা',
                 kasra: 'بِ', kasraBn: 'বি',
-                damma: 'بُ', dammaBn: 'বু'
+                damma: 'بُ', dammaBn: 'বু',
+                words: [
+                    { arabic: 'بَيْت', bengali: 'বাইত', meaning: 'বাড়ি' },
+                    { arabic: 'كِتَاب', bengali: 'কিতাব', meaning: 'বই' },
+                    { arabic: 'سَمَاء', bengali: 'সামা', meaning: 'আকাশ' },
+                    { arabic: 'بَاب', bengali: 'বাব', meaning: 'দরজা' }
+                ]
             },
             { 
                 arabic: 'ت', 
@@ -661,7 +793,13 @@
                 bengali: 'নরম "ত"',
                 fatha: 'تَ', fathaBn: 'তা',
                 kasra: 'تِ', kasraBn: 'তি',
-                damma: 'تُ', dammaBn: 'তু'
+                damma: 'تُ', dammaBn: 'তু',
+                words: [
+                    { arabic: 'تَمْر', bengali: 'তামর', meaning: 'খেজুর' },
+                    { arabic: 'ثَلَاث', bengali: 'ছালাছ', meaning: 'তিন' },
+                    { arabic: 'طَيْر', bengali: 'তাইর', meaning: 'পাখি' },
+                    { arabic: 'تَاء', bengali: 'তা', meaning: 'ত (অক্ষর)' }
+                ]
             },
             { 
                 arabic: 'ث', 
@@ -671,7 +809,13 @@
                 bengali: '"স" এর মতো "ছ"',
                 fatha: 'ثَ', fathaBn: 'সা',
                 kasra: 'ثِ', kasraBn: 'সি',
-                damma: 'ثُ', dammaBn: 'সু'
+                damma: 'ثُ', dammaBn: 'সু',
+                words: [
+                    { arabic: 'ثَلَاثَة', bengali: 'ছালাছাহ', meaning: 'তিন' },
+                    { arabic: 'ثَوْب', bengali: 'ছোব', meaning: 'কাপড়' },
+                    { arabic: 'ثَلْج', bengali: 'ছালজ', meaning: 'বরফ' },
+                    { arabic: 'جُثَّث', bengali: 'জুছছ', meaning: 'মৃতদেহ' }
+                ]
             },
             { 
                 arabic: 'ج', 
@@ -681,7 +825,13 @@
                 bengali: 'নরম "জ" (ইংরেজি J)',
                 fatha: 'جَ', fathaBn: 'জা',
                 kasra: 'جِ', kasraBn: 'জি',
-                damma: 'جُ', dammaBn: 'জু'
+                damma: 'جُ', dammaBn: 'জু',
+                words: [
+                    { arabic: 'جَنَّة', bengali: 'জান্নাহ', meaning: 'স্বর্গ' },
+                    { arabic: 'جَمَل', bengali: 'জমল', meaning: 'উট' },
+                    { arabic: 'جَيْب', bengali: 'জাইব', meaning: 'পকেট' },
+                    { arabic: 'جِلْد', bengali: 'জিলদ', meaning: 'চামড়া' }
+                ]
             },
             { 
                 arabic: 'ح', 
@@ -691,7 +841,13 @@
                 bengali: 'গভীর শ্বাস "হ"',
                 fatha: 'حَ', fathaBn: 'হা',
                 kasra: 'حِ', kasraBn: 'হি',
-                damma: 'حُ', dammaBn: 'হু'
+                damma: 'حُ', dammaBn: 'হু',
+                words: [
+                    { arabic: 'حَسَن', bengali: 'হাসান', meaning: 'ভালো' },
+                    { arabic: 'حَيَاة', bengali: 'হায়াহত', meaning: 'জীবন' },
+                    { arabic: 'حَجّ', bengali: 'হজ্জ', meaning: 'তীর্থযাত্রা' },
+                    { arabic: 'حَدِيقَة', bengali: 'হাদিকাহ', meaning: 'বাগান' }
+                ]
             },
             { 
                 arabic: 'خ', 
@@ -701,7 +857,13 @@
                 bengali: 'গভীর "খ" (জার্মান ch)',
                 fatha: 'خَ', fathaBn: 'খা',
                 kasra: 'خِ', kasraBn: 'খি',
-                damma: 'خُ', dammaBn: 'খু'
+                damma: 'خُ', dammaBn: 'খু',
+                words: [
+                    { arabic: 'خَيْر', bengali: 'খাইর', meaning: 'ভালো' },
+                    { arabic: 'خُلْق', bengali: 'খুলক', meaning: 'সৃষ্টি' },
+                    { arabic: 'خَبْز', bengali: 'খাবয', meaning: 'রুটি' },
+                    { arabic: 'خَالِد', bengali: 'খালিদ', meaning: 'চিরস্থায়ী' }
+                ]
             },
             { 
                 arabic: 'د', 
@@ -711,7 +873,13 @@
                 bengali: '"দ" দাঁতে ঠেকিয়ে',
                 fatha: 'دَ', fathaBn: 'দা',
                 kasra: 'دِ', kasraBn: 'দি',
-                damma: 'دُ', dammaBn: 'দু'
+                damma: 'دُ', dammaBn: 'দু',
+                words: [
+                    { arabic: 'دَفْع', bengali: 'দাফউ', meaning: 'ঠেলা' },
+                    { arabic: 'دَوْلَة', bengali: 'দাউলাহ', meaning: 'রাষ্ট্র' },
+                    { arabic: 'دِيك', bengali: 'দীক', meaning: 'মোরগ' },
+                    { arabic: 'دِرْهَم', bengali: 'দিরহাম', meaning: 'মুদ্রা' }
+                ]
             },
             { 
                 arabic: 'ذ', 
@@ -721,7 +889,13 @@
                 bengali: '"জ" এর মতো নরম',
                 fatha: 'ذَ', fathaBn: 'যা',
                 kasra: 'ذِ', kasraBn: 'যি',
-                damma: 'ذُ', dammaBn: 'যু'
+                damma: 'ذُ', dammaBn: 'যু',
+                words: [
+                    { arabic: 'ذِكْر', bengali: 'যিকর', meaning: 'স্মরণ' },
+                    { arabic: 'ذَهَب', bengali: 'যাহাব', meaning: 'সোনা' },
+                    { arabic: 'ذُرَّة', bengali: 'যুরাহ', meaning: 'বংশধর' },
+                    { arabic: 'مَذْمَّة', bengali: 'মাযম্মাহ', meaning: 'দোষ' }
+                ]
             },
             { 
                 arabic: 'ر', 
@@ -731,7 +905,13 @@
                 bengali: 'ফ্রেঞ্চ "r" এর মতো',
                 fatha: 'رَ', fathaBn: 'রা',
                 kasra: 'رِ', kasraBn: 'রি',
-                damma: 'رُ', dammaBn: 'রু'
+                damma: 'رُ', dammaBn: 'রু',
+                words: [
+                    { arabic: 'رَسُول', bengali: 'রাসূল', meaning: 'রসূল' },
+                    { arabic: 'رَحْمَة', bengali: 'রাহমাহ', meaning: 'দয়া' },
+                    { arabic: 'رِجَال', bengali: 'রিজাল', meaning: 'পুরুষ' },
+                    { arabic: 'رُوح', bengali: 'রূহ', meaning: 'আত্মা' }
+                ]
             },
             { 
                 arabic: 'ز', 
@@ -741,7 +921,13 @@
                 bengali: '"জ" দাঁতে ঠেকিয়ে',
                 fatha: 'زَ', fathaBn: 'যা',
                 kasra: 'زِ', kasraBn: 'জি',
-                damma: 'زُ', dammaBn: 'জু'
+                damma: 'زُ', dammaBn: 'জু',
+                words: [
+                    { arabic: 'زَمَان', bengali: 'যামান', meaning: 'সময়' },
+                    { arabic: 'زَهْرَة', bengali: 'যাহরাহ', meaning: 'ফুল' },
+                    { arabic: 'زَيْت', bengali: 'যাইত', meaning: 'তেল' },
+                    { arabic: 'زَكَاة', bengali: 'যাকাত', meaning: 'দান' }
+                ]
             },
             { 
                 arabic: 'س', 
@@ -751,7 +937,13 @@
                 bengali: 'সাধারণ "স"',
                 fatha: 'سَ', fathaBn: 'সা',
                 kasra: 'سِ', kasraBn: 'সি',
-                damma: 'سُ', dammaBn: 'সু'
+                damma: 'سُ', dammaBn: 'সু',
+                words: [
+                    { arabic: 'سَمَاء', bengali: 'সামা', meaning: 'আকাশ' },
+                    { arabic: 'سَنَة', bengali: 'সানাহ', meaning: 'বছর' },
+                    { arabic: 'سُلَيْمَان', bengali: 'সুলাইমান', meaning: 'সোলায়মান' },
+                    { arabic: 'سُورَة', bengali: 'সূরাহ', meaning: 'পাঠ' }
+                ]
             },
             { 
                 arabic: 'ش', 
@@ -761,7 +953,13 @@
                 bengali: 'ইংরেজি "sh"',
                 fatha: 'شَ', fathaBn: 'শা',
                 kasra: 'شِ', kasraBn: 'শি',
-                damma: 'شُ', dammaBn: 'শু'
+                damma: 'شُ', dammaBn: 'শু',
+                words: [
+                    { arabic: 'شَمْس', bengali: 'শামস', meaning: 'সূর্য' },
+                    { arabic: 'شَجَرَة', bengali: 'শাজারাহ', meaning: 'গাছ' },
+                    { arabic: 'شَرْب', bengali: 'শারব', meaning: 'পান করা' },
+                    { arabic: 'شِعْر', bengali: 'শির', meaning: 'কবিতা' }
+                ]
             },
             { 
                 arabic: 'ص', 
@@ -771,7 +969,13 @@
                 bengali: 'গভীর ঘষা "স"',
                 fatha: 'صَ', fathaBn: 'সা',
                 kasra: 'صِ', kasraBn: 'সি',
-                damma: 'صُ', dammaBn: 'সু'
+                damma: 'صُ', dammaBn: 'সু',
+                words: [
+                    { arabic: 'صَلَاة', bengali: 'সালাহ', meaning: 'নামাজ' },
+                    { arabic: 'صَبْر', bengali: 'সাবর', meaning: 'ধৈর্য' },
+                    { arabic: 'صِدْق', bengali: 'সিদক', meaning: 'সততা' },
+                    { arabic: 'صَفّ', bengali: 'সাফ', meaning: 'সারি' }
+                ]
             },
             { 
                 arabic: 'ض', 
@@ -781,7 +985,13 @@
                 bengali: 'গভীর "দ"',
                 fatha: 'ضَ', fathaBn: 'দা',
                 kasra: 'ضِ', kasraBn: 'দি',
-                damma: 'ضُ', dammaBn: 'দু'
+                damma: 'ضُ', dammaBn: 'দু',
+                words: [
+                    { arabic: 'ضَرْب', bengali: 'দারব', meaning: 'আঘাত' },
+                    { arabic: 'ضِيَاء', bengali: 'দিয়া', meaning: 'আলো' },
+                    { arabic: 'ضَعِيف', bengali: 'দায়িফ', meaning: 'দুর্বল' },
+                    { arabic: 'ضَحْك', bengali: 'দাহক', meaning: 'হাসি' }
+                ]
             },
             { 
                 arabic: 'ط', 
@@ -791,7 +1001,13 @@
                 bengali: 'গভীর ঠোঁট "ত"',
                 fatha: 'طَ', fathaBn: 'তা',
                 kasra: 'طِ', kasraBn: 'তি',
-                damma: 'طُ', dammaBn: 'তু'
+                damma: 'طُ', dammaBn: 'তু',
+                words: [
+                    { arabic: 'طَعَام', bengali: 'তাআম', meaning: 'খাবার' },
+                    { arabic: 'طِفْل', bengali: 'তিফল', meaning: 'শিশু' },
+                    { arabic: 'طَيِّب', bengali: 'তাইয়িব', meaning: 'উত্তম' },
+                    { arabic: 'طَرِيق', bengali: 'তারিক', meaning: 'পথ' }
+                ]
             },
             { 
                 arabic: 'ظ', 
@@ -801,7 +1017,13 @@
                 bengali: 'গভীর নরম "য"',
                 fatha: 'ظَ', fathaBn: 'যা',
                 kasra: 'ظِ', kasraBn: 'যি',
-                damma: 'ظُ', dammaBn: 'যু'
+                damma: 'ظُ', dammaBn: 'যু',
+                words: [
+                    { arabic: 'ظِلْم', bengali: 'যিলম', meaning: 'অত্যাচার' },
+                    { arabic: 'ظَاهِر', bengali: 'যাহির', meaning: 'প্রকাশ' },
+                    { arabic: 'ظَمْأ', bengali: 'যামআ', meaning: 'তৃষ্ণা' },
+                    { arabic: 'مَظْهَر', bengali: 'মাযহার', meaning: 'চেহারা' }
+                ]
             },
             { 
                 arabic: 'ع', 
@@ -811,7 +1033,13 @@
                 bengali: 'গলা চেপে "আ"',
                 fatha: 'عَ', fathaBn: 'আ',
                 kasra: 'عِ', kasraBn: 'ই',
-                damma: 'عُ', dammaBn: 'উ'
+                damma: 'عُ', dammaBn: 'উ',
+                words: [
+                    { arabic: 'عِلْم', bengali: 'ইলম', meaning: 'জ্ঞান' },
+                    { arabic: 'عَيْن', bengali: 'আইন', meaning: 'চোখ' },
+                    { arabic: 'عَرَبِيّ', bengali: 'আরাবি', meaning: 'আরবি' },
+                    { arabic: 'عَامِل', bengali: 'আমিল', meaning: 'কারক' }
+                ]
             },
             { 
                 arabic: 'غ', 
@@ -821,7 +1049,13 @@
                 bengali: 'ফরাসি "r" এর মতো',
                 fatha: 'غَ', fathaBn: 'গা',
                 kasra: 'غِ', kasraBn: 'গি',
-                damma: 'غُ', dammaBn: 'গু'
+                damma: 'غُ', dammaBn: 'গু',
+                words: [
+                    { arabic: 'غَيْب', bengali: 'গাইব', meaning: 'অদৃশ্য' },
+                    { arabic: 'غَرْفَة', bengali: 'গারফাহ', meaning: 'কক্ষ' },
+                    { arabic: 'غَذَاء', bengali: 'গাযা', meaning: 'খাবার' },
+                    { arabic: 'غَرَاب', bengali: 'গারাব', meaning: 'কাক' }
+                ]
             },
             { 
                 arabic: 'ف', 
@@ -831,7 +1065,13 @@
                 bengali: 'ইংরেজি "f"',
                 fatha: 'فَ', fathaBn: 'ফা',
                 kasra: 'فِ', kasraBn: 'ফি',
-                damma: 'فُ', dammaBn: 'ফু'
+                damma: 'فُ', dammaBn: 'ফু',
+                words: [
+                    { arabic: 'فَمٌ', bengali: 'ফাম', meaning: 'মুখ' },
+                    { arabic: 'فَرَاش', bengali: 'ফারাশ', meaning: 'পতঙ্গ' },
+                    { arabic: 'فَرَس', bengali: 'ফারাস', meaning: 'ঘোড়া' },
+                    { arabic: 'فِكْر', bengali: 'ফিকর', meaning: 'চিন্তা' }
+                ]
             },
             { 
                 arabic: 'ق', 
@@ -841,7 +1081,13 @@
                 bengali: '"ক্ব" (খুব জোরে, গলার ভিতর থেকে)',
                 fatha: 'قَ', fathaBn: 'ক্বা',
                 kasra: 'قِ', kasraBn: 'ক্বি',
-                damma: 'قُ', dammaBn: 'ক্বু'
+                damma: 'قُ', dammaBn: 'ক্বু',
+                words: [
+                    { arabic: 'قُرْآن', bengali: 'কুরআন', meaning: 'কোরআন' },
+                    { arabic: 'قَلَم', bengali: 'কলম', meaning: 'কলম' },
+                    { arabic: 'قَمَر', bengali: 'কামার', meaning: 'চাঁদ' },
+                    { arabic: 'قِرْبَان', bengali: 'কিরবান', meaning: 'কোরবানি' }
+                ]
             },
             { 
                 arabic: 'ك', 
@@ -851,7 +1097,13 @@
                 bengali: '"ক"',
                 fatha: 'كَ', fathaBn: 'কা',
                 kasra: 'كِ', kasraBn: 'কি',
-                damma: 'كُ', dammaBn: 'কু'
+                damma: 'كُ', dammaBn: 'কু',
+                words: [
+                    { arabic: 'كِتَاب', bengali: 'কিতাব', meaning: 'বই' },
+                    { arabic: 'كَلْب', bengali: 'কালব', meaning: 'কুকুর' },
+                    { arabic: 'كَبِير', bengali: 'কাবির', meaning: 'বড়' },
+                    { arabic: 'كُلْيَة', bengali: 'কুলয়াহ', meaning: 'বিশ্ববিদ্যালয়' }
+                ]
             },
             { 
                 arabic: 'ل', 
@@ -861,7 +1113,13 @@
                 bengali: 'সাধারণ "ল"',
                 fatha: 'لَ', fathaBn: 'লা',
                 kasra: 'لِ', kasraBn: 'লি',
-                damma: 'لُ', dammaBn: 'লু'
+                damma: 'لُ', dammaBn: 'লু',
+                words: [
+                    { arabic: 'لَيْل', bengali: 'লাইল', meaning: 'রাত' },
+                    { arabic: 'لُغَة', bengali: 'লুগাহ', meaning: 'ভাষা' },
+                    { arabic: 'لَحْم', bengali: 'লাহম', meaning: 'মাংস' },
+                    { arabic: 'لِبَاس', bengali: 'লিবাস', meaning: 'পোশাক' }
+                ]
             },
             { 
                 arabic: 'م', 
@@ -871,7 +1129,13 @@
                 bengali: 'সাধারণ "ম"',
                 fatha: 'مَ', fathaBn: 'মা',
                 kasra: 'مِ', kasraBn: 'মি',
-                damma: 'مُ', dammaBn: 'মু'
+                damma: 'مُ', dammaBn: 'মু',
+                words: [
+                    { arabic: 'مَاء', bengali: 'মাআ', meaning: 'পানি' },
+                    { arabic: 'مَسْجِد', bengali: 'মসজিদ', meaning: 'মসজিদ' },
+                    { arabic: 'مَلَك', bengali: 'মালাক', meaning: 'ফেরেশতা' },
+                    { arabic: 'مُسْلِم', bengali: 'মুসলিম', meaning: 'মুসলমান' }
+                ]
             },
             { 
                 arabic: 'ن', 
@@ -881,7 +1145,13 @@
                 bengali: 'সাধারণ "ন"',
                 fatha: 'نَ', fathaBn: 'না',
                 kasra: 'نِ', kasraBn: 'নি',
-                damma: 'نُ', dammaBn: 'নু'
+                damma: 'نُ', dammaBn: 'নু',
+                words: [
+                    { arabic: 'نَار', bengali: 'নার', meaning: 'আগুন' },
+                    { arabic: 'نَجْم', bengali: 'নাজম', meaning: 'তারা' },
+                    { arabic: 'نَفْس', bengali: 'নাফস', meaning: 'আত্মা' },
+                    { arabic: 'نُور', bengali: 'নূর', meaning: 'আলো' }
+                ]
             },
             { 
                 arabic: 'هـ', 
@@ -891,7 +1161,13 @@
                 bengali: 'শ্বাস "হ"',
                 fatha: 'هَ', fathaBn: 'হা',
                 kasra: 'هِ', kasraBn: 'হি',
-                damma: 'هُ', dammaBn: 'হু'
+                damma: 'هُ', dammaBn: 'হু',
+                words: [
+                    { arabic: 'هِجْرَة', bengali: 'হিজরাহ', meaning: 'হিজরত' },
+                    { arabic: 'هَذَا', bengali: 'হাযা', meaning: 'এটি' },
+                    { arabic: 'هَلَال', bengali: 'হালাল', meaning: 'চাঁদ' },
+                    { arabic: 'هُمْزَة', bengali: 'হুমযাহ', meaning: 'গিজগিজে' }
+                ]
             },
             { 
                 arabic: 'و', 
@@ -901,7 +1177,13 @@
                 bengali: '"ও" বা "উ"',
                 fatha: 'وَ', fathaBn: 'ওয়া',
                 kasra: 'وِ', kasraBn: 'উই',
-                damma: 'وُ', dammaBn: 'উ'
+                damma: 'وُ', dammaBn: 'উ',
+                words: [
+                    { arabic: 'وَلَد', bengali: 'ওয়ালদ', meaning: 'সন্তান' },
+                    { arabic: 'وَطَن', bengali: 'ওয়াতন', meaning: 'দেশ' },
+                    { arabic: 'وَرْد', bengali: 'ওয়ারদ', meaning: 'গোলাপ' },
+                    { arabic: 'وَقْت', bengali: 'ওয়াকত', meaning: 'সময়' }
+                ]
             },
             { 
                 arabic: 'ي', 
@@ -911,7 +1193,13 @@
                 bengali: '"য়" বা দীর্ঘ "ই"',
                 fatha: 'يَ', fathaBn: 'যা',
                 kasra: 'يِ', kasraBn: 'ই',
-                damma: 'يُ', dammaBn: 'ইউ'
+                damma: 'يُ', dammaBn: 'ইউ',
+                words: [
+                    { arabic: 'يَد', bengali: 'য়াদ', meaning: 'হাত' },
+                    { arabic: 'يَوْم', bengali: 'ইয়াউম', meaning: 'দিন' },
+                    { arabic: 'يَقِين', bengali: 'ইয়াকিন', meaning: 'বিশ্বাস' },
+                    { arabic: 'يُوسُف', bengali: 'ইউসুফ', meaning: 'ইউসুফ' }
+                ]
             }
         ];
 
@@ -954,7 +1242,8 @@
                                 <span class="info-value">${letter.bengali}</span>
                             </div>
                         </div>
-                        <button class="harakat-btn" onclick="event.stopPropagation(); openModal('${letter.arabic}')">হরকাত</button>
+                        <button class="harakat-btn" onclick="event.stopPropagation(); openHarakatModal('${letter.arabic}')">হরকাত</button>
+                        <button class="shobdo-btn" onclick="event.stopPropagation(); openShobdoModal('${letter.arabic}')">ছোট শব্দ</button>
                         <div class="hint"></div>
                     </div>
                 </div>
@@ -994,7 +1283,7 @@
             };
         }
 
-        function openModal(arabic) {
+        function openHarakatModal(arabic) {
             const data = getHarakatData(arabic);
             if (!data) return;
             
@@ -1030,27 +1319,69 @@
             document.body.style.overflow = 'hidden';
         }
 
-        function closeModal() {
+        function closeHarakatModal() {
             document.getElementById('modal').classList.remove('active');
             document.body.style.overflow = '';
         }
 
         document.getElementById('modal').addEventListener('click', function(e) {
             if (e.target === this) {
-                closeModal();
+                closeHarakatModal();
+            }
+        });
+
+        function getShobdoData(arabic) {
+            const letter = arabicLetters.find(l => l.arabic === arabic);
+            if (!letter) return null;
+            return {
+                letter: letter.arabic,
+                name: letter.name,
+                words: letter.words || []
+            };
+        }
+
+        function openShobdoModal(arabic) {
+            const data = getShobdoData(arabic);
+            if (!data) return;
+            
+            document.getElementById('shobdo-modal-letter').textContent = data.letter;
+            document.getElementById('shobdo-modal-letter-name').textContent = data.name;
+            
+            const list = document.getElementById('shobdo-list');
+            list.innerHTML = data.words.map(word => `
+                <div class="shobdo-item">
+                    <span class="shobdo-arabic">${word.arabic}</span>
+                    <span class="shobdo-bengali">${word.bengali}</span>
+                    <span class="shobdo-meaning">${word.meaning}</span>
+                </div>
+            `).join('');
+            
+            document.getElementById('shobdoModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeShobdoModal() {
+            document.getElementById('shobdoModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('shobdoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeShobdoModal();
             }
         });
 
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                closeModal();
+                closeHarakatModal();
+                closeShobdoModal();
                 closeFullTable();
             }
         });
 
         function openFullTable() {
-            const tbody = document.getElementById('harakatTableBody');
-            tbody.innerHTML = '';
+            const harakatTbody = document.getElementById('harakatTableBody');
+            harakatTbody.innerHTML = '';
             
             arabicLetters.forEach(letter => {
                 const row = document.createElement('tr');
@@ -1074,7 +1405,27 @@
                         <span class="bengali">${letter.dammaBn}</span>
                     </td>
                 `;
-                tbody.appendChild(row);
+                harakatTbody.appendChild(row);
+            });
+
+            const shobdoTbody = document.getElementById('shobdoTableBody');
+            shobdoTbody.innerHTML = '';
+            
+            arabicLetters.forEach(letter => {
+                const row = document.createElement('tr');
+                const wordsList = letter.words.map(w => `${w.arabic} (${w.bengali}) - ${w.meaning}`).join(' | ');
+                row.innerHTML = `
+                    <td>
+                        <div class="letter-cell">
+                            <span class="arabic-char">${letter.arabic}</span>
+                            <span class="bengali-name">${letter.name}</span>
+                        </div>
+                    </td>
+                    <td style="text-align: left; font-family: 'Noto Sans Bengali', sans-serif; font-size: 0.85rem; color: #16213E;">
+                        ${wordsList}
+                    </td>
+                `;
+                shobdoTbody.appendChild(row);
             });
             
             document.getElementById('fullTableModal').classList.add('active');
