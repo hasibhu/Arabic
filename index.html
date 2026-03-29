@@ -504,28 +504,6 @@
             color: #856404;
         }
 
-        .word-lessons-toggle {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 8px;
-        }
-
-        .word-lessons-toggle button {
-            background: #856404;
-            color: white;
-            border: none;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            font-family: 'Noto Sans Bengali', sans-serif;
-            transition: all 0.2s;
-        }
-
-        .word-lessons-toggle button:hover {
-            background: #6d5303;
-        }
-
         .modal-overlay {
             display: none;
             position: fixed;
@@ -913,7 +891,7 @@
                 <div class="modal-letter" id="modal-letter"></div>
                 <div class="modal-letter-name" id="modal-letter-name"></div>
             </div>
-            <div class="modal-title">হরকাত (Harakat)</div>
+            <div class="modal-title">হারাকাত (Harakat)</div>
             <div class="harakat-list" id="harakat-list"></div>
         </div>
     </div>
@@ -947,7 +925,7 @@
             <div class="full-table-title">আরবি অক্ষরের সম্পূর্ণ সারণি</div>
             
             <div class="table-section">
-                <div class="table-label">হরকাত (Harakat)</div>
+                <div class="table-label">হারাকাত (Harakat)</div>
                 <table class="harakat-table" id="harakatTable">
                     <thead>
                         <tr>
@@ -1541,7 +1519,7 @@
                                 <span class="info-value">${letter.bengali}</span>
                             </div>
                         </div>
-                        <button class="harakat-btn" onclick="event.stopPropagation(); openHarakatModal('${letter.arabic}')">হরকাত</button>
+                        <button class="harakat-btn" onclick="event.stopPropagation(); openHarakatModal('${letter.arabic}')">হারাকাত / চিহ্ন</button>
                         <button class="shobdo-btn" onclick="event.stopPropagation(); openShobdoModal('${letter.arabic}')">ছোট শব্দ</button>
                         <div class="hint"></div>
                     </div>
@@ -2000,42 +1978,14 @@
                     <div class="word-summary-bengali">👉 ${fullBengali}</div>
                 </div>
                 <div class="word-breakdown-lessons">
-                    <div class="word-lessons-toggle">
-                        <button onclick="toggleLessonOrder(this)" data-current="alpha">বর্ণানুক্রমে ↕</button>
-                    </div>
                     <div class="word-lessons-title">🧠 কী শিখলে?</div>
-                    <div class="word-lessons-alpha" data-alpha="true">
-                        ${sortedLessons.map(l => `<div class="word-lesson-item">${l.key}</div>`).join('')}
-                    </div>
-                    <div class="word-lessons-order" data-order="true" style="display:none;">
-                        ${lessons.map(l => `<div class="word-lesson-item">${l.key}</div>`).join('')}
-                    </div>
+                    ${sortedLessons.map(l => `<div class="word-lesson-item">${l.key}</div>`).join('')}
                 </div>
             `;
             
             document.getElementById('wb-content').innerHTML = content;
             document.getElementById('wordBreakdownModal').classList.add('active');
             document.body.style.overflow = 'hidden';
-        }
-
-        function toggleLessonOrder(btn) {
-            const alphaDiv = btn.parentElement.parentElement.querySelector('.word-lessons-alpha');
-            const orderDiv = btn.parentElement.parentElement.querySelector('.word-lessons-order');
-            const isAlpha = alphaDiv.dataset.alpha === 'true';
-            
-            if (isAlpha) {
-                alphaDiv.style.display = 'none';
-                alphaDiv.dataset.alpha = 'false';
-                orderDiv.style.display = 'block';
-                orderDiv.dataset.order = 'false';
-                btn.textContent = 'ক্রম অনুযায়ী ↕';
-            } else {
-                alphaDiv.style.display = 'block';
-                alphaDiv.dataset.alpha = 'true';
-                orderDiv.style.display = 'none';
-                orderDiv.dataset.order = 'true';
-                btn.textContent = 'বর্ণানুক্রমে ↕';
-            }
         }
 
         function closeWordBreakdownModal() {
