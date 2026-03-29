@@ -487,9 +487,9 @@
         .harakat-table th {
             background: #1A1A2E;
             color: white;
-            padding: 12px 8px;
+            padding: 10px 6px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         .harakat-table th:first-child {
@@ -716,6 +716,8 @@
                             <th>জবর (া)</th>
                             <th>জের (ি)</th>
                             <th>পেশ (ু)</th>
+                            <th>সুকুন (্)</th>
+                            <th>তাশদীদ (্্)</th>
                         </tr>
                     </thead>
                     <tbody id="harakatTableBody"></tbody>
@@ -748,6 +750,8 @@
                 fatha: 'أَ', fathaBn: 'আ',
                 kasra: 'أِ', kasraBn: 'ই',
                 damma: 'أُ', dammaBn: 'উ',
+                sukun: 'ءْ', sukunSound: 'আ্',
+                tashdid: 'ءّ', tashdidSound: 'আআ',
                 words: [
                     { arabic: 'أَمْر', bengali: 'আমর', meaning: 'কাজ' },
                     { arabic: 'أَب', bengali: 'আব', meaning: 'পিতা' },
@@ -763,6 +767,8 @@
                 fatha: 'اَ', fathaBn: 'আ',
                 kasra: 'اِ', kasraBn: 'ই',
                 damma: 'اُ', dammaBn: 'উ',
+                sukun: 'اْ', sukunSound: 'আ্',
+                tashdid: 'اّ', tashdidSound: 'আআ',
                 words: [
                     { arabic: 'آمِن', bengali: 'আমিন', meaning: 'নিরাপদ' },
                     { arabic: 'آدَم', bengali: 'আদম', meaning: 'মানব' },
@@ -778,6 +784,8 @@
                 fatha: 'بَ', fathaBn: 'বা',
                 kasra: 'بِ', kasraBn: 'বি',
                 damma: 'بُ', dammaBn: 'বু',
+                sukun: 'بْ', sukunSound: 'ব্',
+                tashdid: 'بّ', tashdidSound: 'ব্ব',
                 words: [
                     { arabic: 'بَيْت', bengali: 'বাইত', meaning: 'বাড়ি' },
                     { arabic: 'كِتَاب', bengali: 'কিতাব', meaning: 'বই' },
@@ -794,6 +802,8 @@
                 fatha: 'تَ', fathaBn: 'তা',
                 kasra: 'تِ', kasraBn: 'তি',
                 damma: 'تُ', dammaBn: 'তু',
+                sukun: 'تْ', sukunSound: 'ত্',
+                tashdid: 'تّ', tashdidSound: 'ত্ত',
                 words: [
                     { arabic: 'تَمْر', bengali: 'তামর', meaning: 'খেজুর' },
                     { arabic: 'ثَلَاث', bengali: 'ছালাছ', meaning: 'তিন' },
@@ -810,6 +820,8 @@
                 fatha: 'ثَ', fathaBn: 'সা',
                 kasra: 'ثِ', kasraBn: 'সি',
                 damma: 'ثُ', dammaBn: 'সু',
+                sukun: 'ثْ', sukunSound: 'স্',
+                tashdid: 'ثّ', tashdidSound: 'স্স',
                 words: [
                     { arabic: 'ثَلَاثَة', bengali: 'ছালাছাহ', meaning: 'তিন' },
                     { arabic: 'ثَوْب', bengali: 'ছোব', meaning: 'কাপড়' },
@@ -826,6 +838,8 @@
                 fatha: 'جَ', fathaBn: 'জা',
                 kasra: 'جِ', kasraBn: 'জি',
                 damma: 'جُ', dammaBn: 'জু',
+                sukun: 'جْ', sukunSound: 'জ্',
+                tashdid: 'جّ', tashdidSound: 'জ্জ',
                 words: [
                     { arabic: 'جَنَّة', bengali: 'জান্নাহ', meaning: 'স্বর্গ' },
                     { arabic: 'جَمَل', bengali: 'জমল', meaning: 'উট' },
@@ -842,6 +856,8 @@
                 fatha: 'حَ', fathaBn: 'হা',
                 kasra: 'حِ', kasraBn: 'হি',
                 damma: 'حُ', dammaBn: 'হু',
+                sukun: 'حْ', sukunSound: 'হ্',
+                tashdid: 'حّ', tashdidSound: 'হ্হ',
                 words: [
                     { arabic: 'حَسَن', bengali: 'হাসান', meaning: 'ভালো' },
                     { arabic: 'حَيَاة', bengali: 'হায়াহত', meaning: 'জীবন' },
@@ -858,6 +874,8 @@
                 fatha: 'خَ', fathaBn: 'খা',
                 kasra: 'خِ', kasraBn: 'খি',
                 damma: 'خُ', dammaBn: 'খু',
+                sukun: 'خْ', sukunSound: 'খ্',
+                tashdid: 'خّ', tashdidSound: 'খ্খ',
                 words: [
                     { arabic: 'خَيْر', bengali: 'খাইর', meaning: 'ভালো' },
                     { arabic: 'خُلْق', bengali: 'খুলক', meaning: 'সৃষ্টি' },
@@ -874,6 +892,8 @@
                 fatha: 'دَ', fathaBn: 'দা',
                 kasra: 'دِ', kasraBn: 'দি',
                 damma: 'دُ', dammaBn: 'দু',
+                sukun: 'دْ', sukunSound: 'দ্',
+                tashdid: 'دّ', tashdidSound: 'দ্দ',
                 words: [
                     { arabic: 'دَفْع', bengali: 'দাফউ', meaning: 'ঠেলা' },
                     { arabic: 'دَوْلَة', bengali: 'দাউলাহ', meaning: 'রাষ্ট্র' },
@@ -890,6 +910,8 @@
                 fatha: 'ذَ', fathaBn: 'যা',
                 kasra: 'ذِ', kasraBn: 'যি',
                 damma: 'ذُ', dammaBn: 'যু',
+                sukun: 'ذْ', sukunSound: 'য্',
+                tashdid: 'ذّ', tashdidSound: 'য্য',
                 words: [
                     { arabic: 'ذِكْر', bengali: 'যিকর', meaning: 'স্মরণ' },
                     { arabic: 'ذَهَب', bengali: 'যাহাব', meaning: 'সোনা' },
@@ -906,6 +928,8 @@
                 fatha: 'رَ', fathaBn: 'রা',
                 kasra: 'رِ', kasraBn: 'রি',
                 damma: 'رُ', dammaBn: 'রু',
+                sukun: 'رْ', sukunSound: 'র্',
+                tashdid: 'رّ', tashdidSound: 'র্র',
                 words: [
                     { arabic: 'رَسُول', bengali: 'রাসূল', meaning: 'রসূল' },
                     { arabic: 'رَحْمَة', bengali: 'রাহমাহ', meaning: 'দয়া' },
@@ -922,6 +946,8 @@
                 fatha: 'زَ', fathaBn: 'যা',
                 kasra: 'زِ', kasraBn: 'জি',
                 damma: 'زُ', dammaBn: 'জু',
+                sukun: 'زْ', sukunSound: 'জ্',
+                tashdid: 'زّ', tashdidSound: 'জ্জ',
                 words: [
                     { arabic: 'زَمَان', bengali: 'যামান', meaning: 'সময়' },
                     { arabic: 'زَهْرَة', bengali: 'যাহরাহ', meaning: 'ফুল' },
@@ -938,6 +964,8 @@
                 fatha: 'سَ', fathaBn: 'সা',
                 kasra: 'سِ', kasraBn: 'সি',
                 damma: 'سُ', dammaBn: 'সু',
+                sukun: 'سْ', sukunSound: 'স্',
+                tashdid: 'سّ', tashdidSound: 'স্স',
                 words: [
                     { arabic: 'سَمَاء', bengali: 'সামা', meaning: 'আকাশ' },
                     { arabic: 'سَنَة', bengali: 'সানাহ', meaning: 'বছর' },
@@ -954,6 +982,8 @@
                 fatha: 'شَ', fathaBn: 'শা',
                 kasra: 'شِ', kasraBn: 'শি',
                 damma: 'شُ', dammaBn: 'শু',
+                sukun: 'شْ', sukunSound: 'শ্',
+                tashdid: 'شّ', tashdidSound: 'শ্শ',
                 words: [
                     { arabic: 'شَمْس', bengali: 'শামস', meaning: 'সূর্য' },
                     { arabic: 'شَجَرَة', bengali: 'শাজারাহ', meaning: 'গাছ' },
@@ -970,6 +1000,8 @@
                 fatha: 'صَ', fathaBn: 'সা',
                 kasra: 'صِ', kasraBn: 'সি',
                 damma: 'صُ', dammaBn: 'সু',
+                sukun: 'صْ', sukunSound: 'স্',
+                tashdid: 'صّ', tashdidSound: 'স্স',
                 words: [
                     { arabic: 'صَلَاة', bengali: 'সালাহ', meaning: 'নামাজ' },
                     { arabic: 'صَبْر', bengali: 'সাবর', meaning: 'ধৈর্য' },
@@ -986,6 +1018,8 @@
                 fatha: 'ضَ', fathaBn: 'দা',
                 kasra: 'ضِ', kasraBn: 'দি',
                 damma: 'ضُ', dammaBn: 'দু',
+                sukun: 'ضْ', sukunSound: 'দ্',
+                tashdid: 'ضّ', tashdidSound: 'দ্দ',
                 words: [
                     { arabic: 'ضَرْب', bengali: 'দারব', meaning: 'আঘাত' },
                     { arabic: 'ضِيَاء', bengali: 'দিয়া', meaning: 'আলো' },
@@ -1002,6 +1036,8 @@
                 fatha: 'طَ', fathaBn: 'তা',
                 kasra: 'طِ', kasraBn: 'তি',
                 damma: 'طُ', dammaBn: 'তু',
+                sukun: 'طْ', sukunSound: 'ত্',
+                tashdid: 'طّ', tashdidSound: 'ত্ত',
                 words: [
                     { arabic: 'طَعَام', bengali: 'তাআম', meaning: 'খাবার' },
                     { arabic: 'طِفْل', bengali: 'তিফল', meaning: 'শিশু' },
@@ -1018,6 +1054,8 @@
                 fatha: 'ظَ', fathaBn: 'যা',
                 kasra: 'ظِ', kasraBn: 'যি',
                 damma: 'ظُ', dammaBn: 'যু',
+                sukun: 'ظْ', sukunSound: 'য্',
+                tashdid: 'ظّ', tashdidSound: 'য্য',
                 words: [
                     { arabic: 'ظِلْم', bengali: 'যিলম', meaning: 'অত্যাচার' },
                     { arabic: 'ظَاهِر', bengali: 'যাহির', meaning: 'প্রকাশ' },
@@ -1034,6 +1072,8 @@
                 fatha: 'عَ', fathaBn: 'আ',
                 kasra: 'عِ', kasraBn: 'ই',
                 damma: 'عُ', dammaBn: 'উ',
+                sukun: 'عْ', sukunSound: 'ই্',
+                tashdid: 'عّ', tashdidSound: 'ইই',
                 words: [
                     { arabic: 'عِلْم', bengali: 'ইলম', meaning: 'জ্ঞান' },
                     { arabic: 'عَيْن', bengali: 'আইন', meaning: 'চোখ' },
@@ -1050,6 +1090,8 @@
                 fatha: 'غَ', fathaBn: 'গা',
                 kasra: 'غِ', kasraBn: 'গি',
                 damma: 'غُ', dammaBn: 'গু',
+                sukun: 'غْ', sukunSound: 'গ্',
+                tashdid: 'غّ', tashdidSound: 'গ্গ',
                 words: [
                     { arabic: 'غَيْب', bengali: 'গাইব', meaning: 'অদৃশ্য' },
                     { arabic: 'غَرْفَة', bengali: 'গারফাহ', meaning: 'কক্ষ' },
@@ -1066,6 +1108,8 @@
                 fatha: 'فَ', fathaBn: 'ফা',
                 kasra: 'فِ', kasraBn: 'ফি',
                 damma: 'فُ', dammaBn: 'ফু',
+                sukun: 'فْ', sukunSound: 'ফ্',
+                tashdid: 'فّ', tashdidSound: 'ফ্ফ',
                 words: [
                     { arabic: 'فَمٌ', bengali: 'ফাম', meaning: 'মুখ' },
                     { arabic: 'فَرَاش', bengali: 'ফারাশ', meaning: 'পতঙ্গ' },
@@ -1082,6 +1126,8 @@
                 fatha: 'قَ', fathaBn: 'ক্বা',
                 kasra: 'قِ', kasraBn: 'ক্বি',
                 damma: 'قُ', dammaBn: 'ক্বু',
+                sukun: 'قْ', sukunSound: 'ক্ব্',
+                tashdid: 'قّ', tashdidSound: 'ক্ব্ব',
                 words: [
                     { arabic: 'قُرْآن', bengali: 'কুরআন', meaning: 'কোরআন' },
                     { arabic: 'قَلَم', bengali: 'কলম', meaning: 'কলম' },
@@ -1098,6 +1144,8 @@
                 fatha: 'كَ', fathaBn: 'কা',
                 kasra: 'كِ', kasraBn: 'কি',
                 damma: 'كُ', dammaBn: 'কু',
+                sukun: 'كْ', sukunSound: 'ক্',
+                tashdid: 'كّ', tashdidSound: 'ক্ক',
                 words: [
                     { arabic: 'كِتَاب', bengali: 'কিতাব', meaning: 'বই' },
                     { arabic: 'كَلْب', bengali: 'কালব', meaning: 'কুকুর' },
@@ -1114,6 +1162,8 @@
                 fatha: 'لَ', fathaBn: 'লা',
                 kasra: 'لِ', kasraBn: 'লি',
                 damma: 'لُ', dammaBn: 'লু',
+                sukun: 'لْ', sukunSound: 'ল্',
+                tashdid: 'لّ', tashdidSound: 'ল্ল',
                 words: [
                     { arabic: 'لَيْل', bengali: 'লাইল', meaning: 'রাত' },
                     { arabic: 'لُغَة', bengali: 'লুগাহ', meaning: 'ভাষা' },
@@ -1130,6 +1180,8 @@
                 fatha: 'مَ', fathaBn: 'মা',
                 kasra: 'مِ', kasraBn: 'মি',
                 damma: 'مُ', dammaBn: 'মু',
+                sukun: 'مْ', sukunSound: 'ম্',
+                tashdid: 'مّ', tashdidSound: 'ম্ম',
                 words: [
                     { arabic: 'مَاء', bengali: 'মাআ', meaning: 'পানি' },
                     { arabic: 'مَسْجِد', bengali: 'মসজিদ', meaning: 'মসজিদ' },
@@ -1146,6 +1198,8 @@
                 fatha: 'نَ', fathaBn: 'না',
                 kasra: 'نِ', kasraBn: 'নি',
                 damma: 'نُ', dammaBn: 'নু',
+                sukun: 'نْ', sukunSound: 'ন্',
+                tashdid: 'نّ', tashdidSound: 'ন্ন',
                 words: [
                     { arabic: 'نَار', bengali: 'নার', meaning: 'আগুন' },
                     { arabic: 'نَجْم', bengali: 'নাজম', meaning: 'তারা' },
@@ -1162,6 +1216,8 @@
                 fatha: 'هَ', fathaBn: 'হা',
                 kasra: 'هِ', kasraBn: 'হি',
                 damma: 'هُ', dammaBn: 'হু',
+                sukun: 'هْ', sukunSound: 'হ্',
+                tashdid: 'هّ', tashdidSound: 'হ্হ',
                 words: [
                     { arabic: 'هِجْرَة', bengali: 'হিজরাহ', meaning: 'হিজরত' },
                     { arabic: 'هَذَا', bengali: 'হাযা', meaning: 'এটি' },
@@ -1178,6 +1234,8 @@
                 fatha: 'وَ', fathaBn: 'ওয়া',
                 kasra: 'وِ', kasraBn: 'উই',
                 damma: 'وُ', dammaBn: 'উ',
+                sukun: 'وْ', sukunSound: 'উ্',
+                tashdid: 'وّ', tashdidSound: 'উউ',
                 words: [
                     { arabic: 'وَلَد', bengali: 'ওয়ালদ', meaning: 'সন্তান' },
                     { arabic: 'وَطَن', bengali: 'ওয়াতন', meaning: 'দেশ' },
@@ -1194,6 +1252,8 @@
                 fatha: 'يَ', fathaBn: 'যা',
                 kasra: 'يِ', kasraBn: 'ই',
                 damma: 'يُ', dammaBn: 'ইউ',
+                sukun: 'يْ', sukunSound: 'ই্',
+                tashdid: 'يّ', tashdidSound: 'ইই',
                 words: [
                     { arabic: 'يَد', bengali: 'য়াদ', meaning: 'হাত' },
                     { arabic: 'يَوْم', bengali: 'ইয়াউম', meaning: 'দিন' },
@@ -1279,7 +1339,9 @@
                 name: letter.name,
                 fatha: { arabic: letter.fatha, sound: letter.fathaBn },
                 kasra: { arabic: letter.kasra, sound: letter.kasraBn },
-                damma: { arabic: letter.damma, sound: letter.dammaBn }
+                damma: { arabic: letter.damma, sound: letter.dammaBn },
+                sukun: { arabic: letter.sukun, sound: letter.sukunSound, desc: 'কোনো স্বর নেই' },
+                tashdid: { arabic: letter.tashdid, sound: letter.tashdidSound, desc: 'ধ্বনি দ্বিগুণ' }
             };
         }
 
@@ -1312,6 +1374,20 @@
                         <span class="harakat-arabic">${data.damma.arabic}</span>
                     </div>
                     <span class="harakat-sound">${data.damma.sound}</span>
+                </div>
+                <div class="harakat-item">
+                    <div class="harakat-info">
+                        <span class="harakat-name">সুকুন (Sukun ْ)</span>
+                        <span class="harakat-arabic">${data.sukun.arabic}</span>
+                    </div>
+                    <span class="harakat-sound">${data.sukun.sound} (${data.sukun.desc})</span>
+                </div>
+                <div class="harakat-item">
+                    <div class="harakat-info">
+                        <span class="harakat-name">তাশদীদ (Tashdid ّ)</span>
+                        <span class="harakat-arabic">${data.tashdid.arabic}</span>
+                    </div>
+                    <span class="harakat-sound">${data.tashdid.sound} (${data.tashdid.desc})</span>
                 </div>
             `;
             
@@ -1403,6 +1479,14 @@
                     <td class="sound-cell">
                         <span class="arabic">${letter.damma}</span>
                         <span class="bengali">${letter.dammaBn}</span>
+                    </td>
+                    <td class="sound-cell">
+                        <span class="arabic">${letter.sukun}</span>
+                        <span class="bengali">${letter.sukunSound}</span>
+                    </td>
+                    <td class="sound-cell">
+                        <span class="arabic">${letter.tashdid}</span>
+                        <span class="bengali">${letter.tashdidSound}</span>
                     </td>
                 `;
                 harakatTbody.appendChild(row);
