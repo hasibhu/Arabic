@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arabic Letters - বাংলা উচ্চারণ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F7F5F2;
+      min-height: 100vh;
+      padding: 32px;
+      background-image:
+        radial-gradient(circle at 20% 80%, rgba(233,69,96,.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(26,26,46,.03) 0%, transparent 50%);
+    }
+    .container { max-width: 1400px; margin: 0 auto; }
+    header { text-align: center; margin-bottom: 40px; }
+    .subtitle {
+      font-family: 'Noto Sans Bengali', sans-serif;
+      font-size: 1.25rem;
+      color: #16213E;
+      opacity: .85;
+      line-height: 1.6;
+    }
+    .stats-bar {
+      display: flex; justify-content: center; align-items: center; gap: 16px;
+      margin-bottom: 32px; flex-wrap: wrap;
+    }
+    .progress {
+      font-size: 1rem; color: #16213E; background: white; padding: 12px 24px;
+      border-radius: 50px; box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    }
+    .progress span { font-weight: 600; color: #E94560; }
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 300px));
+      gap: 24px; justify-content: center; margin-bottom: 48px; max-width: 1320px;
+      margin-left: auto; margin-right: auto;
+    }
+    @media (min-width: 1320px) { .grid { grid-template-columns: repeat(4, 300px); } }
+    @media (min-width: 1000px) and (max-width: 1319px) { .grid { grid-template-columns: repeat(3, 300px); } }
+    @media (min-width: 680px) and (max-width: 999px) { .grid { grid-template-columns: repeat(2, 300px); } }
+    @media (max-width: 679px) { .grid { grid-template-columns: 300px; } }
+    .card-container {
+      width: 300px; height: 300px; perspective: 1000px; cursor: pointer;
+      opacity: 0; animation: fadeIn .4s ease-out forwards;
+    }
+    @keyframes fadeIn { to { opacity: 1; } }
+    .card {
+      width: 100%; height: 100%; position: relative; transform-style: preserve-3d;
+      transition: transform .6s ease-in-out;
+    }
+    .card-container:hover .card { transform: translateY(-8px); }
+    .card-container.flipped .card { transform: rotateY(180deg); }
+    .card-container.flipped:hover .card { transform: translateY(-8px) rotateY(180deg); }
+    .card-face {
+      position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+      border-radius: 16px; background: white; box-shadow: 0 8px 32px rgba(0,0,0,.08);
+      border: 2px solid #E8E4E0; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; transition: box-shadow .2s, border-color .2s;
+    }
+    .card-container.flipped .card-face { border-color: #E94560; }
+    .card-front {
+      font-family: 'Amiri', serif; font-size: 8rem; color: #1A1A2E; line-height: 1;
+    }
+    .card-back {
+      transform: rotateY(180deg); background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+      padding: 16px; overflow-y: auto; align-items: stretch; justify-content: flex-start;
+    }
+    .card-back-content { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+    .info-row { display: flex; gap: 8px; font-family: 'Noto Sans Bengali', sans-serif; color: white; }
+    .info-label { font-weight: 600; white-space: nowrap; color: #E94560; }
+    .info-value { color: rgba(255,255,255,.95); line-height: 1.35; }
+    .hint {
+      font-family: 'Noto Sans Bengali', sans-serif; font-size: .75rem; color: rgba(255,255,255,.58);
+      margin-top: auto; padding-top: 10px; text-align: center;
+    }
+    .button-row {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .button-row-quran {
+      display: flex;
+      justify-content: center;
+      margin-top: 12px;
+    }
+    .mini-btn {
+      font-family: 'Noto Sans Bengali', sans-serif; font-size: .72rem; font-weight: 700;
+      padding: 7px 12px; color: white; border: none; border-radius: 999px; cursor: pointer;
+      transition: all .2s ease; z-index: 10;
+    }
+    .mini-btn:hover { transform: scale(1.05); }
+    .harakat-btn { background: rgba(233, 69, 96, .95); }
+    .harakat-btn:hover { background: #E94560; }
+    .shobdo-btn { background: rgba(26, 162, 46, .95); }
+    .shobdo-btn:hover { background: #148827; }
+    .quran-btn { background: rgba(14, 116, 85, .95); }
+    .quran-btn:hover { background: #0f7a59; }
+    .shobdo-list, .harakat-list { display: flex; flex-direction: column; gap: 12px; }
+    .shobdo-item, .harakat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      background: #F7F5F2;
+      border-radius: 10px;
+      gap: 12px;
+    }
+    .harakat-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .harakat-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      text-align: right;
+      min-height: 100%;
+    }
+    .shobdo-arabic, .harakat-arabic {
+      font-family: 'Amiri', serif;
+      font-size: 1.45rem;
+      color: #1A1A2E;
+      direction: ltr;
+      min-width: 64px;
+      line-height: 1;
+    }
+    .shobdo-bengali, .harakat-sound { font-family: 'Noto Sans Bengali', sans-serif; color: #16213E; flex: 1; }
+    .harakat-name { color: #E94560; font-weight: 700; font-size: .9rem; }
+    .shobdo-btn-view {
+      background: #7B61FF;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-left: auto; /* push to extreme right */
+    }
+    .shobdo-btn-view:hover { background: #6447F5; }
+    .quran-word-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 12px 14px;
+      background: #F7F5F2;
+      border-radius: 10px;
+      gap: 6px;
+    }
+    .quran-word-line {
+      font-family: 'Noto Sans Bengali', sans-serif;
+      font-size: 2.61rem;
+      color: #374151;
+      line-height: 1.55;
+    }
+    .quran-word-meta {
+      font-family: 'Noto Sans Bengali', sans-serif;
+      font-size: .8rem;
+      color: #0f7a59;
+      font-weight: 700;
+    }
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 1000;
+      justify-content: center; align-items: center; animation: fadeInOverlay .2s ease-out;
+    }
+    .modal-overlay.active { display: flex; }
+    @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+    .modal-content {
+      background: white; border-radius: 16px; padding: 24px; max-width: 520px; width: 92%;
+      box-shadow: 0 20px 60px rgba(0,0,0,.3); position: relative; animation: slideUp .3s ease-out;
+      max-height: 88vh; overflow-y: auto;
+    }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-close {
+      position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border: none;
+      background: #f0f0f0; border-radius: 50%; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem; color: #666;
+    }
+    .modal-close:hover { background: #e0e0e0; color: #333; }
+    .modal-header { text-align: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px solid #E8E4E0; }
+    .modal-letter { font-family: 'Amiri', serif; font-size: 4rem; color: #1A1A2E; line-height: 1; }
+    .modal-letter-name {
+      font-family: 'Noto Sans Bengali', sans-serif; font-size: 1.25rem; font-weight: 700;
+      color: #16213E; margin-top: 8px;
+    }
+    .modal-title {
+      font-family: 'Noto Sans Bengali', sans-serif; font-size: 1rem; color: #666; margin-bottom: 12px;
+      text-align: center;
+    }
+    .word-breakdown-modal .modal-content { max-width: 560px; }
+    .word-breakdown-header {
+      text-align: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #E8E4E0;
+    }
+    .word-breakdown-arabic { font-family: 'Amiri', serif; font-size: 2.7rem; color: #1A1A2E; direction: ltr; margin-bottom: 4px; }
+    .word-breakdown-bengali { font-family: 'Noto Sans Bengali', sans-serif; font-size: 1.2rem; font-weight: 700; color: #16213E; }
+    .word-letter-item { background: #F7F5F2; border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+    .word-letter-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; }
+    .word-letter-num { background: #E94560; color: white; min-width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .82rem; font-weight: 700; }
+    .word-letter-arabic { font-family: 'Amiri', serif; font-size: 1.4rem; color: #1A1A2E; direction: ltr; }
+    .word-letter-content { font-family: 'Noto Sans Bengali', sans-serif; font-size: .94rem; color: #16213E; line-height: 1.6; padding-left: 36px; }
+    .word-letter-formula { display: flex; align-items: center; gap: 8px; margin: 6px 0; flex-wrap: wrap; }
+    .word-letter-formula .letter { font-family: 'Amiri', serif; font-size: 1.2rem; color: #1A1A2E; }
+    .word-letter-result { color: #E94560; font-weight: 700; }
+    .word-letter-tip { display: inline-block; background: #d4edda; color: #155724; padding: 2px 8px; border-radius: 12px; font-size: .8rem; margin-top: 4px; }
+    .word-breakdown-summary { background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%); border-radius: 10px; padding: 16px; color: white; margin-bottom: 16px; }
+    .word-summary-label { font-size: .85rem; opacity: .8; margin-bottom: 8px; }
+    .word-summary-arabic { font-family: 'Amiri', serif; font-size: 1.5rem; direction: ltr; margin-bottom: 8px; }
+    .word-summary-bengali { font-family: 'Noto Sans Bengali', sans-serif; font-size: 1.1rem; }
+    .word-breakdown-lessons { background: #FFF3CD; border-radius: 10px; padding: 12px; }
+    .word-lessons-title { font-family: 'Noto Sans Bengali', sans-serif; font-size: .9rem; font-weight: 700; color: #856404; margin-bottom: 8px; }
+    .word-lesson-item { font-family: 'Noto Sans Bengali', sans-serif; font-size: .85rem; color: #856404; margin-bottom: 4px; padding-left: 16px; position: relative; }
+    .word-lesson-item::before { content: '•'; position: absolute; left: 0; }
+    .full-table-modal .modal-content { max-width: 980px; }
+    .full-table-title { font-family: 'Noto Sans Bengali', sans-serif; font-size: 1.5rem; font-weight: 700; color: #1A1A2E; text-align: center; margin-bottom: 12px; }
+    .table-section { margin-bottom: 24px; }
+    .table-label { font-family: 'Noto Sans Bengali', sans-serif; font-size: .95rem; font-weight: 700; color: #E94560; margin-bottom: 8px; }
+    .harakat-table { width: 100%; border-collapse: collapse; font-family: 'Noto Sans Bengali', sans-serif; }
+    .harakat-table th { background: #1A1A2E; color: white; padding: 10px 6px; font-weight: 700; font-size: .8rem; }
+    .harakat-table td { padding: 10px 8px; text-align: center; border-bottom: 1px solid #E8E4E0; font-size: .95rem; }
+    .harakat-table tr:nth-child(even) { background: #F7F5F2; }
+    .letter-cell { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .arabic-char { font-family: 'Amiri', serif; font-size: 1.5rem; color: #1A1A2E; }
+    .bengali-name { font-size: .75rem; color: #666; }
+    .sound-cell .arabic { font-family: 'Amiri', serif; font-size: 1.15rem; color: #1A1A2E; direction: ltr; display: block; }
+    .sound-cell .bengali { font-size: .84rem; color: #16213E; }
+    .actions { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .btn {
+      font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700; padding: 16px 32px;
+      border: none; border-radius: 50px; cursor: pointer; transition: all .2s ease;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-primary { background: #E94560; color: white; }
+    .btn-primary:hover { background: #d63d56; transform: scale(1.05); }
+    .btn-secondary { background: white; color: #1A1A2E; box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+    .btn-secondary:hover { background: #f0f0f0; transform: scale(1.05); }
+    .footer { text-align: center; margin-top: 48px; padding: 24px; color: #16213E; opacity: .6; font-size: .875rem; line-height: 1.7; }
+    @media (max-width: 500px) {
+      body { padding: 16px; }
+      .subtitle { font-size: 1rem; }
+      .card-container { width: 280px; height: 280px; }
+      .card-front { font-size: 7rem; }
+      .grid { grid-template-columns: 280px; }
+      .btn { padding: 14px 24px; font-size: .9rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <p class="subtitle">আরবি অক্ষর শিখুন — বাংলা কাছাকাছি উচ্চারণ, হারাকাত, তানউইন, এবং বেশি শব্দ-উদাহরণ সহ</p>
+    </header>
+
+    <div class="stats-bar">
+      <div class="progress">দেখা হয়েছে: <span id="viewed">0</span> / <span id="total">29</span></div>
+      <button class="btn btn-secondary" onclick="openFullTable()">📋 সম্পূর্ণ সারণি</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="resetAll()">নতুন করে শুরু করুন</button>
+    </div>
+
+    <footer class="footer">
+      <p>Hasib</p>
+      <p>Berlin School of Mind and Brain</p>
+      <p>Humboldt University of Berlin</p>
+      <p>Germany</p>
+    </footer>
+  </div>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeHarakatModal()">✕</button>
+      <div class="modal-header">
+        <div class="modal-letter" id="modal-letter"></div>
+        <div class="modal-letter-name" id="modal-letter-name"></div>
+      </div>
+      <div class="modal-title"><strong>হারাকাত, সুকুন, তাশদীদ ও তানউইন</strong></div>
+      <div class="harakat-list" id="harakat-list"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="shobdoModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeShobdoModal()">✕</button>
+      <div class="modal-header">
+        <div class="modal-letter" id="shobdo-modal-letter"></div>
+        <div class="modal-letter-name" id="shobdo-modal-letter-name"></div>
+      </div>
+      <div class="modal-title">১০টি ছোট শব্দমালা</div>
+      <div class="shobdo-list" id="shobdo-list"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="quranWordModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeQuranWordModal()">✕</button>
+      <div class="modal-header">
+        <div class="modal-letter" id="quran-modal-letter"></div>
+        <div class="modal-letter-name" id="quran-modal-letter-name"></div>
+      </div>
+      <div class="modal-title">কুরআনের শব্দ</div>
+      <div class="shobdo-list" id="quran-word-list"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay word-breakdown-modal" id="wordBreakdownModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeWordBreakdownModal()">✕</button>
+      <div class="word-breakdown-header">
+        <div class="word-breakdown-arabic" id="wb-arabic"></div>
+        <div class="word-breakdown-bengali" id="wb-bengali"></div>
+      </div>
+      <div id="wb-content"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay full-table-modal" id="fullTableModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeFullTable()">✕</button>
+      <div class="full-table-title">আরবি অক্ষরের সম্পূর্ণ সারণি</div>
+
+      <div class="table-section">
+        <div class="table-label"><strong>হারাকাত, সুকুন, তাশদীদ ও তানউইন</strong></div>
+        <table class="harakat-table">
+          <thead>
+            <tr>
+              <th>অক্ষর</th>
+              <th>জবর</th>
+              <th>জের</th>
+              <th>পেশ</th>
+              <th>সুকুন</th>
+              <th>তাশদীদ</th>
+              <th>দুই জবর</th>
+              <th>দুই জের</th>
+              <th>দুই পেশ</th>
+            </tr>
+          </thead>
+          <tbody id="harakatTableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="table-section">
+        <div class="table-label">ছোট শব্দমালা (প্রতি অক্ষরে ১০টি)</div>
+        <table class="harakat-table">
+          <thead>
+            <tr>
+              <th>অক্ষর</th>
+              <th style="text-align:left">শব্দসমূহ</th>
+            </tr>
+          </thead>
+          <tbody id="shobdoTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const wordBank = {
+      'ء': [
+        ['سَأَلَ', 'সা-আ-লা', 'জিজ্ঞেস করল'], ['قُرْآن', 'কুরআন', 'কোরআন'], ['مَسْؤُول', 'মাসউল', 'দায়িত্বশীল'], ['فُؤَاد', 'ফুয়াদ', 'হৃদয়'], ['رَأْس', 'রাʼস', 'মাথা'], ['شَيْء', 'শাইʼ', 'জিনিস'], ['أُمّ', 'উম্ম', 'মা'], ['أَب', 'আব', 'বাবা'], ['إِيمَان', 'ঈমান', 'বিশ্বাস'], ['أَخ', 'আখ', 'ভাই']
+      ],
+      'ا': [
+        ['آدَم', 'আদাম', 'আদম'], ['إِمَام', 'ইমাম', 'ইমাম'], ['إِسْم', 'ইসম', 'নাম'], ['أَرْض', 'আরদ', 'পৃথিবী'], ['آخِر', 'আখির', 'শেষ'], ['أَمَان', 'আমান', 'নিরাপত্তা'], ['أَحَد', 'আহাদ', 'এক'], ['أَكَلَ', 'আকালা', 'খেয়েছে'], ['أُمَم', 'উমাম', 'জাতিসমূহ'], ['آيَة', 'আয়াহ', 'আয়াত']
+      ],
+      'ب': [
+        ['بَيْت', 'বাইত', 'ঘর'], ['بَاب', 'বাব', 'দরজা'], ['بَدْر', 'বাদর', 'পূর্ণচাঁদ'], ['بَحْر', 'বাহর', 'সমুদ্র'], ['بَرَكَة', 'বারাকাহ', 'বরকত'], ['بُسْتَان', 'বুস্তান', 'বাগান'], ['بِنْت', 'বিনত', 'মেয়ে'], ['بَلَد', 'বালাদ', 'দেশ'], ['بَصَر', 'বাসার', 'দৃষ্টি'], ['بِرّ', 'বির্র', 'সৎকর্ম']
+      ],
+      'ت': [
+        ['تَمْر', 'তামর', 'খেজুর'], ['تِين', 'তীন', 'ডুমুর'], ['تَاج', 'তাজ', 'মুকুট'], ['تَوْبَة', 'তাওবাহ', 'তওবা'], ['تَاجِر', 'তাজির', 'ব্যবসায়ী'], ['تُرَاب', 'তুরাব', 'মাটি'], ['تِلْمِيذ', 'তিলমীয', 'শিক্ষার্থী'], ['تَكْبِير', 'তাকবির', 'আল্লাহু আকবর বলা'], ['تَحْت', 'তাহত', 'নিচে'], ['تَابَ', 'তাবা', 'ফিরে এল']
+      ],
+      'ث': [
+        ['ثَوْب', 'থাওব', 'পোশাক'], ['ثَلَاثَة', 'থালাছাহ', 'তিন'], ['ثَلْج', 'থালজ', 'বরফ'], ['ثَمَر', 'থামার', 'ফল'], ['ثَوَاب', 'থাওয়াব', 'সওয়াব'], ['ثَابِت', 'থাবিত', 'স্থির'], ['ثِقَة', 'থিকাহ', 'বিশ্বাস'], ['ثُوم', 'থূম', 'রসুন'], ['ثَرْوَة', 'থারওয়াহ', 'সম্পদ'], ['مِثَال', 'মিছাল', 'উদাহরণ']
+      ],
+      'ج': [
+        ['جَمَل', 'জামাল', 'উট'], ['جَنَّة', 'জান্নাহ', 'জান্নাত'], ['جَبَل', 'জাবাল', 'পাহাড়'], ['جَمِيل', 'জামিল', 'সুন্দর'], ['جَزَاء', 'জাযা', 'প্রতিদান'], ['جُمْعَة', 'জুমআহ', 'শুক্রবার'], ['جِسْم', 'জিসম', 'দেহ'], ['جِهَاد', 'জিহাদ', 'সংগ্রাম'], ['جِدّ', 'জিদ্দ', 'গুরুত্ব/দাদা'], ['جَوّ', 'জাও', 'আবহাওয়া']
+      ],
+      'ح': [
+        ['حَجّ', 'হাজ্জ', 'হজ'], ['حَيَاة', 'হায়াত', 'জীবন'], ['حَقّ', 'হাক্ক', 'সত্য/অধিকার'], ['حَلَال', 'হালাল', 'বৈধ'], ['حُبّ', 'হুব্ব', 'ভালোবাসা'], ['حِكْمَة', 'হিকমাহ', 'প্রজ্ঞা'], ['حَمْد', 'হামদ', 'প্রশংসা'], ['حَفِيظ', 'হাফীয', 'সংরক্ষক'], ['حَرْف', 'হারফ', 'অক্ষর'], ['حُسْن', 'হুসন', 'সৌন্দর্য']
+      ],
+      'خ': [
+        ['خَيْر', 'খাইর', 'কল্যাণ'], ['خُبْز', 'খুবজ', 'রুটি'], ['خَالِد', 'খালিদ', 'চিরস্থায়ী'], ['خَالِق', 'খালিক', 'স্রষ্টা'], ['خَوْف', 'খাওফ', 'ভয়'], ['خِتَام', 'খিতাম', 'সমাপ্তি'], ['خَسِرَ', 'খাসিরা', 'ক্ষতিগ্রস্ত হল'], ['خُشُوع', 'খুশূ', 'নম্রতা'], ['خَادِم', 'খাদিম', 'সেবক'], ['خَطّ', 'খাত্ত', 'রেখা/লিখন']
+      ],
+      'د': [
+        ['دِين', 'দীন', 'ধর্ম'], ['دَرْس', 'দার্স', 'পাঠ'], ['دَار', 'দার', 'ঘর'], ['دَعْوَة', 'দাʼওয়াহ', 'দাওয়াত'], ['دَلِيل', 'দালিল', 'প্রমাণ'], ['دَم', 'দাম', 'রক্ত'], ['دُعَاء', 'দুʼআ', 'দোয়া'], ['دَوْر', 'দাওর', 'ভূমিকা'], ['دِفْء', 'দিফʼ', 'উষ্ণতা'], ['دَفْتَر', 'দাফতার', 'খাতা']
+      ],
+      'ذ': [
+        ['ذَهَب', 'ধাহাব', 'সোনা'], ['ذِكْر', 'ধিকর', 'যিকর'], ['هَذَا', 'হাযা', 'এটি'], ['ذُرِّيَّة', 'ধুররিয়্যাহ', 'বংশধর'], ['ذَكِيّ', 'ধাকিয়্য', 'বুদ্ধিমান'], ['ذُنُوب', 'ধুনূব', 'পাপসমূহ'], ['ذَوْق', 'ধাওক', 'স্বাদ'], ['ذِئْب', 'ধিʼব', 'নেকড়ে'], ['مَذْهَب', 'মাযহাব', 'মতবাদ'], ['إِذْن', 'ইধন', 'অনুমতি']
+      ],
+      'ر': [
+        ['رَحْمَة', 'রাহমাহ', 'রহমত'], ['رُوح', 'রূহ', 'আত্মা'], ['رَبّ', 'রাব্ব', 'প্রভু'], ['رِزْق', 'রিয্ক', 'রিযিক'], ['رَسُول', 'রাসূল', 'রাসূল'], ['رَجُل', 'রাজুল', 'পুরুষ'], ['رَبِيع', 'রাবীʼ', 'বসন্ত'], ['رُكُوع', 'রুকূ', 'রুকু'], ['رَمَضَان', 'রামাদান', 'রমজান'], ['رِفْق', 'রিফক', 'নম্রতা']
+      ],
+      'ز': [
+        ['زَيْت', 'যাইত', 'তেল'], ['زَكَاة', 'যাকাত', 'যাকাত'], ['مَوْز', 'মাওয', 'কলা'], ['زَهْرَة', 'যাহরাহ', 'ফুল'], ['زَمَن', 'যামান', 'সময়'], ['زِينَة', 'যীনাহ', 'সৌন্দর্য'], ['زَوْج', 'যাওজ', 'দম্পতি/স্বামী'], ['زَاد', 'যাদ', 'রসদ'], ['زُجَاج', 'যুজাজ', 'কাঁচ'], ['زَاهِد', 'যাহিদ', 'সংযমী']
+      ],
+      'س': [
+        ['سَمَاء', 'সামা', 'আকাশ'], ['سُورَة', 'সূরাহ', 'সূরা'], ['سَنَة', 'সানাহ', 'বছর'], ['سَبِيل', 'সাবিল', 'পথ'], ['سَلَام', 'সালাম', 'শান্তি'], ['سُكُون', 'সুকূন', 'প্রশান্তি'], ['سَجَدَ', 'সাজাদা', 'সিজদা করল'], ['سِرّ', 'সির্র', 'গোপন'], ['سَعِيد', 'সাঈদ', 'সুখী'], ['سُؤَال', 'সুʼআল', 'প্রশ্ন']
+      ],
+      'ش': [
+        ['شَمْس', 'শামস', 'সূর্য'], ['شَجَرَة', 'শাজারাহ', 'গাছ'], ['شِعْر', 'শিʼর', 'কবিতা'], ['شَاهِد', 'শাহিদ', 'সাক্ষী'], ['شُكْر', 'শুকর', 'কৃতজ্ঞতা'], ['شَرَف', 'শারাফ', 'মর্যাদা'], ['شَيْخ', 'শাইখ', 'বয়োজ্যেষ্ঠ'], ['شَهْر', 'শাহর', 'মাস'], ['شَفَق', 'শাফাক', 'গোধূলি'], ['شَفَاء', 'শিফা', 'আরোগ্য']
+      ],
+      'ص': [
+        ['صَبْر', 'সাবর', 'ধৈর্য'], ['صَلَاة', 'সালাহ', 'নামাজ'], ['صِدْق', 'সিদক', 'সত্যবাদিতা'], ['صَدَقَة', 'সাদাকাহ', 'সাদাকা'], ['صَفّ', 'সাফ্ফ', 'সারি'], ['صُبْح', 'সুবহ', 'ভোর'], ['صَوْم', 'সাওম', 'রোজা'], ['صِفَة', 'সিফাহ', 'বৈশিষ্ট্য'], ['صَدْر', 'সাদর', 'বুক'], ['صَاحِب', 'সাহিব', 'সঙ্গী']
+      ],
+      'ض': [
+        ['ضِيَاء', 'দিয়া', 'আলো'], ['ضَعِيف', 'দাʼইফ', 'দুর্বল'], ['أَرْض', 'আরদ', 'পৃথিবী'], ['ضَرُورَة', 'দারূরাহ', 'প্রয়োজন'], ['ضَيْف', 'দাইফ', 'অতিথি'], ['ضَحِكَ', 'দাহিকা', 'হাসল'], ['ضَمِير', 'দামীর', 'বিবেক/সর্বনাম'], ['ضَبْط', 'দাবত', 'নিয়ন্ত্রণ'], ['ضَالّ', 'দাল্ল', 'ভ্রান্ত'], ['فَضْل', 'ফাদল', 'অনুগ্রহ']
+      ],
+      'ط': [
+        ['طَرِيق', 'তারীক', 'পথ'], ['طِفْل', 'তিফল', 'শিশু'], ['طَعَام', 'তাʼআম', 'খাবার'], ['طَاهِر', 'তাহির', 'পবিত্র'], ['طُول', 'তূল', 'দৈর্ঘ্য'], ['طَبِيب', 'তাবীব', 'ডাক্তার'], ['طَبْع', 'তাবʿ', 'স্বভাব'], ['طَائِر', 'তাʼইর', 'পাখি'], ['طَلَب', 'তালাব', 'চাহিদা'], ['مِفْتَاح', 'মিফতাহ', 'চাবি']
+      ],
+      'ظ': [
+        ['ظُلْم', 'যুল্ম', 'অন্যায়'], ['ظَاهِر', 'যাহির', 'প্রকাশ্য'], ['مَظْهَر', 'মাযহার', 'রূপ'], ['ظِلّ', 'যিল্ল', 'ছায়া'], ['حِفْظ', 'হিফয', 'মুখস্থ/সংরক্ষণ'], ['ظَنّ', 'যান্ন', 'ধারণা'], ['عَظِيم', 'আযীম', 'মহান'], ['نَظَر', 'নাযার', 'দৃষ্টি'], ['مَوْعِظَة', 'মাওইযাহ', 'উপদেশ'], ['ظَفَر', 'যাফার', 'জয়']
+      ],
+      'ع': [
+        ['عِلْم', 'ইলম', 'জ্ঞান'], ['عَيْن', 'আইন', 'চোখ'], ['عَرَبِيّ', 'আরাবিয়্য', 'আরবি'], ['عِبَادَة', 'ইবাদাহ', 'ইবাদত'], ['عَدْل', 'আদল', 'ন্যায়'], ['عَهْد', 'আহদ', 'অঙ্গীকার'], ['عَمَل', 'আমাল', 'কাজ'], ['عَالِم', 'আলিম', 'জ্ঞানী'], ['عِيد', 'ঈদ', 'ঈদ'], ['عَافِيَة', 'আফিয়াহ', 'সুস্থতা']
+      ],
+      'غ': [
+        ['غَيْب', 'গাইব', 'অদৃশ্য'], ['غُرْفَة', 'গুরফাহ', 'কক্ষ'], ['مَغْرِب', 'মাগরিব', 'পশ্চিম'], ['غَفُور', 'গাফূর', 'ক্ষমাশীল'], ['غَنِيّ', 'গানিয়্য', 'অভাবমুক্ত'], ['غَايَة', 'গায়াহ', 'লক্ষ্য'], ['غَلَبَ', 'গালাবা', 'জয়ী হল'], ['غُصْن', 'গুসন', 'ডালপালা'], ['غُدُوّ', 'গুদুউ', 'সকালবেলা'], ['اسْتِغْفَار', 'ইস্তিগফার', 'ক্ষমাপ্রার্থনা']
+      ],
+      'ف': [
+        ['فِكْر', 'ফিকর', 'চিন্তা'], ['فَم', 'ফাম', 'মুখ'], ['فَلَك', 'ফালাক', 'কক্ষপথ'], ['فَوْز', 'ফাওয', 'সফলতা'], ['فَجْر', 'ফাজর', 'ভোর'], ['فُرْصَة', 'ফুরসাহ', 'সুযোগ'], ['فَتْح', 'ফাতহ', 'বিজয়/উদ্বোধন'], ['فِعْل', 'ফিʿল', 'কর্ম'], ['فَضْل', 'ফাদল', 'অনুগ্রহ'], ['فَرَح', 'ফারাহ', 'আনন্দ']
+      ],
+      'ق': [
+        ['قُرْآن', 'কুরআন', 'কোরআন'], ['قَلَم', 'কালাম', 'কলম'], ['قَمَر', 'কামার', 'চাঁদ'], ['قَلْب', 'কাল্ব', 'হৃদয়'], ['قَدَم', 'কাদাম', 'পা'], ['قَرِيب', 'কারীব', 'নিকট'], ['قَوْم', 'কাওম', 'জাতি'], ['قِصَّة', 'কিসসাহ', 'গল্প'], ['حَقِيقَة', 'হাকীকাহ', 'বাস্তবতা'], ['فُرْقَان', 'ফুরকান', 'সত্য-মিথ্যা পার্থক্য']
+      ],
+      'ك': [
+        ['كِتَاب', 'কিতাব', 'বই'], ['كَبِير', 'কাবীর', 'বড়'], ['مَلَك', 'মালাক', 'ফেরেশতা'], ['كَرِيم', 'কারীম', 'সম্মানিত'], ['كَلِمَة', 'কালিমাহ', 'শব্দ'], ['كَثِير', 'কাসীর', 'অনেক'], ['كُرْسِيّ', 'কুরসিয়্য', 'চেয়ার'], ['كَوْثَر', 'কাওসার', 'কাওসার'], ['كَفَى', 'কাফা', 'যথেষ্ট হল'], ['ذَكَرَ', 'যাকারা', 'স্মরণ করল']
+      ],
+      'ل': [
+        ['لَيْل', 'লাইল', 'রাত'], ['لُغَة', 'লুগাহ', 'ভাষা'], ['لِبَاس', 'লিবাস', 'পোশাক'], ['لَطِيف', 'লাতিফ', 'মধুর/সূক্ষ্ম'], ['لُؤْلُؤ', 'লুʼলুʼ', 'মুক্তা'], ['لَقَب', 'লাকাব', 'উপাধি'], ['لَمَسَ', 'লামাসা', 'স্পর্শ করল'], ['لَقَدْ', 'লাকাদ', 'নিশ্চয়ই'], ['لِسَان', 'লিসান', 'জিহ্বা'], ['لَقِيَ', 'লাকিয়া', 'সাক্ষাৎ করল']
+      ],
+      'م': [
+        ['مَاء', 'মাʼ', 'পানি'], ['مُسْلِم', 'মুসলিম', 'মুসলিম'], ['مَسْجِد', 'মাসজিদ', 'মসজিদ'], ['مَلَك', 'মালাক', 'ফেরেশতা'], ['مَغْفِرَة', 'মাগফিরাহ', 'ক্ষমা'], ['مُؤْمِن', 'মুʼমিন', 'বিশ্বাসী'], ['مَلِك', 'মালিক', 'রাজা'], ['مِيزَان', 'মীযান', 'তুলাদণ্ড'], ['مَجْد', 'মাজদ', 'গৌরব'], ['مِفْتَاح', 'মিফতাহ', 'চাবি']
+      ],
+      'ن': [
+        ['نُور', 'নূর', 'আলো'], ['نَفْس', 'নাফস', 'আত্মা'], ['نَجْم', 'নাজম', 'তারা'], ['نَهْر', 'নাহর', 'নদী'], ['نَعِيم', 'নাইম', 'নেয়ামত'], ['نَجَاة', 'নাজাত', 'মুক্তি'], ['نِعْمَة', 'নিমাহ', 'নেয়ামত'], ['نِدَاء', 'নিদা', 'ডাক'], ['نَصْر', 'নাসর', 'সাহায্য/বিজয়'], ['نَوْم', 'নাওম', 'ঘুম']
+      ],
+      'ه': [
+        ['هَذَا', 'হাযা', 'এটি'], ['هُدًى', 'হুদা', 'হিদায়াত'], ['إِلَه', 'ইলাহ', 'উপাস্য'], ['هَوَاء', 'হাওয়া', 'বায়ু'], ['هَدِيَّة', 'হাদিয়্যাহ', 'উপহার'], ['هُمَا', 'হুমা', 'তারা দুজন'], ['هَادِئ', 'হাদিʼ', 'শান্ত'], ['هَمّ', 'হাম্ম', 'চিন্তা'], ['هِجْرَة', 'হিজরাহ', 'হিজরত'], ['هَلْ', 'হাল', 'কি?']
+      ],
+      'و': [
+        ['وَلَد', 'ওয়ালাদ', 'ছেলে/সন্তান'], ['وَقْت', 'ওয়াক্ত', 'সময়'], ['وَرْد', 'ওয়ার্দ', 'গোলাপ'], ['وَعْد', 'ওয়াʼদ', 'প্রতিশ্রুতি'], ['وَجْه', 'ওয়াজহ', 'মুখমণ্ডল'], ['وَادٍ', 'ওয়াদিন', 'উপত্যকা'], ['وُضُوء', 'উযু', 'অজু'], ['وُجُود', 'উজুদ', 'অস্তিত্ব'], ['وَسِيلَة', 'ওয়াসিলাহ', 'উপায়'], ['وِقَايَة', 'উইকায়াহ', 'সুরক্ষা']
+      ],
+      'ي': [
+        ['يَد', 'ইয়াদ', 'হাত'], ['يَوْم', 'ইয়াওম', 'দিন'], ['يُوسُف', 'ইউসুফ', 'ইউসুফ'], ['يَقِين', 'ইয়াকীন', 'দৃঢ় বিশ্বাস'], ['يَسِير', 'ইয়াসীর', 'সহজ'], ['يَمِين', 'ইয়ামীন', 'ডান দিক/শপথ'], ['يَقُول', 'ইয়াকূল', 'সে বলে'], ['يَقْرَأ', 'ইয়াকরাʼ', 'সে পড়ে'], ['يَسْجُد', 'ইয়াসজুদ', 'সে সিজদা করে'], ['يَتِيم', 'ইয়াতীম', 'এতিম']
+      ]
+    };
+
+    const baseLetters = [
+      { arabic: 'ء', name: 'হামযা', pronunciation: 'গলার ঝটকা; থামার/কাটার ধ্বনি', example: 'سَأَلَ (সা-আ-লা)', bengali: 'গলার হালকা থামা', fatha: 'أَ', fathaBn: 'আʼ', kasra: 'إِ', kasraBn: 'ইʼ', damma: 'أُ', dammaBn: 'উʼ', sukun: 'ءْ', sukunSound: 'ʼ', tashdid: 'ءّ', tashdidSound: 'ʼʼ', tanwinFath: 'أً', tanwinFathBn: 'আন', tanwinKasr: 'إٍ', tanwinKasrBn: 'ইন', tanwinDamm: 'أٌ', tanwinDammBn: 'উন' },
+      { arabic: 'ا', name: 'আলিফ', pronunciation: 'দীর্ঘ ā বহন করে; অনেক সময় vowel carrier', example: 'آدَم (আদাম)', bengali: 'দীর্ঘ আ', fatha: 'اَ', fathaBn: 'আ', kasra: 'اِ', kasraBn: 'ই', damma: 'اُ', dammaBn: 'উ', sukun: 'اْ', sukunSound: 'আ্', tashdid: 'اّ', tashdidSound: 'আআ', tanwinFath: 'اً', tanwinFathBn: 'আন', tanwinKasr: 'اٍ', tanwinKasrBn: 'ইন', tanwinDamm: 'اٌ', tanwinDammBn: 'উন' },
+      { arabic: 'ب', name: 'বা', pronunciation: 'দুই ঠোঁট মিলিয়ে b', example: 'بَيْت (বাইত)', bengali: 'ব', fatha: 'بَ', fathaBn: 'বা', kasra: 'بِ', kasraBn: 'বি', damma: 'بُ', dammaBn: 'বু', sukun: 'بْ', sukunSound: 'ব্', tashdid: 'بّ', tashdidSound: 'ব্ব', tanwinFath: 'بً', tanwinFathBn: 'বান', tanwinKasr: 'بٍ', tanwinKasrBn: 'বিন', tanwinDamm: 'بٌ', tanwinDammBn: 'বুন' },
+      { arabic: 'ت', name: 'তা', pronunciation: 'সামনের দিকে হালকা t', example: 'تَمْر (তামর)', bengali: 'ত', fatha: 'تَ', fathaBn: 'তা', kasra: 'تِ', kasraBn: 'তি', damma: 'تُ', dammaBn: 'তু', sukun: 'تْ', sukunSound: 'ত্', tashdid: 'تّ', tashdidSound: 'ত্ত', tanwinFath: 'تً', tanwinFathBn: 'তান', tanwinKasr: 'تٍ', tanwinKasrBn: 'তিন', tanwinDamm: 'تٌ', tanwinDammBn: 'তুন' },
+      { arabic: 'ث', name: 'থা', pronunciation: 'ইংরেজি think-এর th', example: 'ثَوْب (থাওব)', bengali: 'থ (দাঁতের ফাঁকে)', fatha: 'ثَ', fathaBn: 'থা', kasra: 'ثِ', kasraBn: 'থি', damma: 'ثُ', dammaBn: 'থু', sukun: 'ثْ', sukunSound: 'থ্', tashdid: 'ثّ', tashdidSound: 'থ্থ', tanwinFath: 'ثً', tanwinFathBn: 'থান', tanwinKasr: 'ثٍ', tanwinKasrBn: 'থিন', tanwinDamm: 'ثٌ', tanwinDammBn: 'থুন' },
+      { arabic: 'ج', name: 'জীম', pronunciation: 'ইংরেজি j / আরবির জ ধাঁচ', example: 'جَمَل (জামাল)', bengali: 'জ', fatha: 'جَ', fathaBn: 'জা', kasra: 'جِ', kasraBn: 'জি', damma: 'جُ', dammaBn: 'জু', sukun: 'جْ', sukunSound: 'জ্', tashdid: 'جّ', tashdidSound: 'জ্জ', tanwinFath: 'جً', tanwinFathBn: 'জান', tanwinKasr: 'جٍ', tanwinKasrBn: 'জিন', tanwinDamm: 'جٌ', tanwinDammBn: 'জুন' },
+      { arabic: 'ح', name: 'হা', pronunciation: 'গভীর নিঃশ্বাসের h', example: 'حَقّ (হাক্ক)', bengali: 'গভীর হ', fatha: 'حَ', fathaBn: 'হা', kasra: 'حِ', kasraBn: 'হি', damma: 'حُ', dammaBn: 'হু', sukun: 'حْ', sukunSound: 'হ্', tashdid: 'حّ', tashdidSound: 'হ্হ', tanwinFath: 'حً', tanwinFathBn: 'হান', tanwinKasr: 'حٍ', tanwinKasrBn: 'হিন', tanwinDamm: 'حٌ', tanwinDammBn: 'হুন' },
+      { arabic: 'خ', name: 'খা', pronunciation: 'গলার ঘর্ষণ; গভীর খ', example: 'خَيْر (খাইর)', bengali: 'গভীর খ', fatha: 'خَ', fathaBn: 'খা', kasra: 'خِ', kasraBn: 'খি', damma: 'خُ', dammaBn: 'খু', sukun: 'خْ', sukunSound: 'খ্', tashdid: 'خّ', tashdidSound: 'খ্খ', tanwinFath: 'خً', tanwinFathBn: 'খান', tanwinKasr: 'خٍ', tanwinKasrBn: 'খিন', tanwinDamm: 'خٌ', tanwinDammBn: 'খুন' },
+      { arabic: 'د', name: 'দাল', pronunciation: 'হালকা d', example: 'دِين (দীন)', bengali: 'দ', fatha: 'دَ', fathaBn: 'দা', kasra: 'دِ', kasraBn: 'দি', damma: 'دُ', dammaBn: 'দু', sukun: 'دْ', sukunSound: 'দ্', tashdid: 'دّ', tashdidSound: 'দ্দ', tanwinFath: 'دً', tanwinFathBn: 'দান', tanwinKasr: 'دٍ', tanwinKasrBn: 'দিন', tanwinDamm: 'دٌ', tanwinDammBn: 'দুন' },
+      { arabic: 'ذ', name: 'যাল', pronunciation: 'ইংরেজি this-এর th', example: 'ذَهَب (ধাহাব)', bengali: 'ধ-জাতীয় নরম', fatha: 'ذَ', fathaBn: 'ধা', kasra: 'ذِ', kasraBn: 'ধি', damma: 'ذُ', dammaBn: 'ধু', sukun: 'ذْ', sukunSound: 'ধ্', tashdid: 'ذّ', tashdidSound: 'ধ্ধ', tanwinFath: 'ذً', tanwinFathBn: 'ধান', tanwinKasr: 'ذٍ', tanwinKasrBn: 'ধিন', tanwinDamm: 'ذٌ', tanwinDammBn: 'ধুন' },
+      { arabic: 'ر', name: 'রা', pronunciation: 'ট্যাপ/কম্পিত r', example: 'رَحْمَة (রাহমাহ)', bengali: 'র', fatha: 'رَ', fathaBn: 'রা', kasra: 'رِ', kasraBn: 'রি', damma: 'رُ', dammaBn: 'রু', sukun: 'رْ', sukunSound: 'র্', tashdid: 'رّ', tashdidSound: 'র্র', tanwinFath: 'رً', tanwinFathBn: 'রান', tanwinKasr: 'رٍ', tanwinKasrBn: 'রিন', tanwinDamm: 'رٌ', tanwinDammBn: 'রুন' },
+      { arabic: 'ز', name: 'যায়', pronunciation: 'ইংরেজি z', example: 'زَيْت (যাইত)', bengali: 'জ়/য', fatha: 'زَ', fathaBn: 'যা', kasra: 'زِ', kasraBn: 'যি', damma: 'زُ', dammaBn: 'যু', sukun: 'زْ', sukunSound: 'য্', tashdid: 'زّ', tashdidSound: 'য্য', tanwinFath: 'زً', tanwinFathBn: 'যান', tanwinKasr: 'زٍ', tanwinKasrBn: 'যিন', tanwinDamm: 'زٌ', tanwinDammBn: 'যুন' },
+      { arabic: 'س', name: 'সীন', pronunciation: 'সাধারণ s', example: 'سَلَام (সালাম)', bengali: 'স', fatha: 'سَ', fathaBn: 'সা', kasra: 'سِ', kasraBn: 'সি', damma: 'سُ', dammaBn: 'সু', sukun: 'سْ', sukunSound: 'স্', tashdid: 'سّ', tashdidSound: 'স্স', tanwinFath: 'سً', tanwinFathBn: 'সান', tanwinKasr: 'سٍ', tanwinKasrBn: 'সিন', tanwinDamm: 'سٌ', tanwinDammBn: 'সুন' },
+      { arabic: 'ش', name: 'শীন', pronunciation: 'ইংরেজি sh', example: 'شَمْس (শামস)', bengali: 'শ', fatha: 'شَ', fathaBn: 'শা', kasra: 'شِ', kasraBn: 'শি', damma: 'شُ', dammaBn: 'শু', sukun: 'شْ', sukunSound: 'শ্', tashdid: 'شّ', tashdidSound: 'শ্শ', tanwinFath: 'شً', tanwinFathBn: 'শান', tanwinKasr: 'شٍ', tanwinKasrBn: 'শিন', tanwinDamm: 'شٌ', tanwinDammBn: 'শুন' },
+      { arabic: 'ص', name: 'সাদ', pronunciation: 'ভারী/গভীর s', example: 'صَبْر (সাবর)', bengali: 'ভারী স', fatha: 'صَ', fathaBn: 'সা', kasra: 'صِ', kasraBn: 'সি', damma: 'صُ', dammaBn: 'সু', sukun: 'صْ', sukunSound: 'স্', tashdid: 'صّ', tashdidSound: 'স্স', tanwinFath: 'صً', tanwinFathBn: 'সান', tanwinKasr: 'صٍ', tanwinKasrBn: 'সিন', tanwinDamm: 'صٌ', tanwinDammBn: 'সুন' },
+      { arabic: 'ض', name: 'দাদ', pronunciation: 'ভারী/গভীর d', example: 'ضِيَاء (দিয়া)', bengali: 'ভারী দ', fatha: 'ضَ', fathaBn: 'দা', kasra: 'ضِ', kasraBn: 'দি', damma: 'ضُ', dammaBn: 'দু', sukun: 'ضْ', sukunSound: 'দ্', tashdid: 'ضّ', tashdidSound: 'দ্দ', tanwinFath: 'ضً', tanwinFathBn: 'দান', tanwinKasr: 'ضٍ', tanwinKasrBn: 'দিন', tanwinDamm: 'ضٌ', tanwinDammBn: 'দুন' },
+      { arabic: 'ط', name: 'তা', pronunciation: 'ভারী/গভীর t', example: 'طَرِيق (তারীক)', bengali: 'ভারী ত', fatha: 'طَ', fathaBn: 'তা', kasra: 'طِ', kasraBn: 'তি', damma: 'طُ', dammaBn: 'তু', sukun: 'طْ', sukunSound: 'ত্', tashdid: 'طّ', tashdidSound: 'ত্ত', tanwinFath: 'طً', tanwinFathBn: 'তান', tanwinKasr: 'طٍ', tanwinKasrBn: 'তিন', tanwinDamm: 'طٌ', tanwinDammBn: 'তুন' },
+      { arabic: 'ظ', name: 'যা', pronunciation: 'ভারী voiced ধ/য-জাতীয়', example: 'ظُلْم (যুল্ম)', bengali: 'ভারী ধ/য', fatha: 'ظَ', fathaBn: 'যা', kasra: 'ظِ', kasraBn: 'যি', damma: 'ظُ', dammaBn: 'যু', sukun: 'ظْ', sukunSound: 'য্', tashdid: 'ظّ', tashdidSound: 'য্য', tanwinFath: 'ظً', tanwinFathBn: 'যান', tanwinKasr: 'ظٍ', tanwinKasrBn: 'যিন', tanwinDamm: 'ظٌ', tanwinDammBn: 'যুন' },
+      { arabic: 'ع', name: 'আইন', pronunciation: 'গলার ভেতর চাপা ধ্বনি; বাংলায় পুরো সমতুল্য নেই', example: 'عِلْم (ইলম)', bengali: 'গলার আʼ', fatha: 'عَ', fathaBn: 'আʼ', kasra: 'عِ', kasraBn: 'ইʼ', damma: 'عُ', dammaBn: 'উʼ', sukun: 'عْ', sukunSound: 'ʿ', tashdid: 'عّ', tashdidSound: 'ʿʿ', tanwinFath: 'عً', tanwinFathBn: 'আন', tanwinKasr: 'عٍ', tanwinKasrBn: 'ইন', tanwinDamm: 'عٌ', tanwinDammBn: 'উন' },
+      { arabic: 'غ', name: 'গইন', pronunciation: 'গলার ঘর্ষণ; gh', example: 'غَيْب (গাইব)', bengali: 'ঘর্ষণযুক্ত গ', fatha: 'غَ', fathaBn: 'গা', kasra: 'غِ', kasraBn: 'গি', damma: 'غُ', dammaBn: 'গু', sukun: 'غْ', sukunSound: 'গ্', tashdid: 'غّ', tashdidSound: 'গ্গ', tanwinFath: 'غً', tanwinFathBn: 'গান', tanwinKasr: 'غٍ', tanwinKasrBn: 'গিন', tanwinDamm: 'غٌ', tanwinDammBn: 'গুন' },
+      { arabic: 'ف', name: 'ফা', pronunciation: 'উপরের দাঁত ও নিচের ঠোঁটে f', example: 'فِكْر (ফিকর)', bengali: 'ফ', fatha: 'فَ', fathaBn: 'ফা', kasra: 'فِ', kasraBn: 'ফি', damma: 'فُ', dammaBn: 'ফু', sukun: 'فْ', sukunSound: 'ফ্', tashdid: 'فّ', tashdidSound: 'ফ্ফ', tanwinFath: 'فً', tanwinFathBn: 'ফান', tanwinKasr: 'فٍ', tanwinKasrBn: 'ফিন', tanwinDamm: 'فٌ', tanwinDammBn: 'ফুন' },
+      { arabic: 'ق', name: 'ক্বাফ', pronunciation: 'গলার পেছনের শক্ত q', example: 'قُرْآن (কুরআন)', bengali: 'ক্ব/গভীর ক', fatha: 'قَ', fathaBn: 'ক্বা', kasra: 'قِ', kasraBn: 'ক্বি', damma: 'قُ', dammaBn: 'ক্বু', sukun: 'قْ', sukunSound: 'ক্ব্', tashdid: 'قّ', tashdidSound: 'ক্ব্ব', tanwinFath: 'قً', tanwinFathBn: 'ক্বান', tanwinKasr: 'قٍ', tanwinKasrBn: 'ক্বিন', tanwinDamm: 'قٌ', tanwinDammBn: 'ক্বুন' },
+      { arabic: 'ك', name: 'কাফ', pronunciation: 'সাধারণ k', example: 'كِتَاب (কিতাব)', bengali: 'ক', fatha: 'كَ', fathaBn: 'কা', kasra: 'كِ', kasraBn: 'কি', damma: 'كُ', dammaBn: 'কু', sukun: 'كْ', sukunSound: 'ক্', tashdid: 'كّ', tashdidSound: 'ক্ক', tanwinFath: 'كً', tanwinFathBn: 'কান', tanwinKasr: 'كٍ', tanwinKasrBn: 'কিন', tanwinDamm: 'كٌ', tanwinDammBn: 'কুন' },
+      { arabic: 'ل', name: 'লাম', pronunciation: 'সাধারণ l', example: 'لَيْل (লাইল)', bengali: 'ল', fatha: 'لَ', fathaBn: 'লা', kasra: 'لِ', kasraBn: 'লি', damma: 'لُ', dammaBn: 'লু', sukun: 'لْ', sukunSound: 'ল্', tashdid: 'لّ', tashdidSound: 'ল্ল', tanwinFath: 'لً', tanwinFathBn: 'লান', tanwinKasr: 'لٍ', tanwinKasrBn: 'লিন', tanwinDamm: 'لٌ', tanwinDammBn: 'লুন' },
+      { arabic: 'م', name: 'মীম', pronunciation: 'দুই ঠোঁট মিলিয়ে m', example: 'مَاء (মাʼ)', bengali: 'ম', fatha: 'مَ', fathaBn: 'মা', kasra: 'مِ', kasraBn: 'মি', damma: 'مُ', dammaBn: 'মু', sukun: 'مْ', sukunSound: 'ম্', tashdid: 'مّ', tashdidSound: 'ম্ম', tanwinFath: 'مً', tanwinFathBn: 'মান', tanwinKasr: 'مٍ', tanwinKasrBn: 'মিন', tanwinDamm: 'مٌ', tanwinDammBn: 'মুন' },
+      { arabic: 'ن', name: 'নূন', pronunciation: 'সাধারণ n', example: 'نُور (নূর)', bengali: 'ন', fatha: 'نَ', fathaBn: 'না', kasra: 'نِ', kasraBn: 'নি', damma: 'نُ', dammaBn: 'নু', sukun: 'نْ', sukunSound: 'ন্', tashdid: 'نّ', tashdidSound: 'ন্ন', tanwinFath: 'نً', tanwinFathBn: 'নান', tanwinKasr: 'نٍ', tanwinKasrBn: 'নিন', tanwinDamm: 'نٌ', tanwinDammBn: 'নুন' },
+      { arabic: 'ه', name: 'হা', pronunciation: 'হালকা h', example: 'هُدًى (হুদা)', bengali: 'হ', fatha: 'هَ', fathaBn: 'হা', kasra: 'هِ', kasraBn: 'হি', damma: 'هُ', dammaBn: 'হু', sukun: 'هْ', sukunSound: 'হ্', tashdid: 'هّ', tashdidSound: 'হ্হ', tanwinFath: 'هً', tanwinFathBn: 'হান', tanwinKasr: 'هٍ', tanwinKasrBn: 'হিন', tanwinDamm: 'هٌ', tanwinDammBn: 'হুন' },
+      { arabic: 'و', name: 'ওয়াও', pronunciation: 'ব্যঞ্জন হলে w, vowel হলে ū', example: 'وَلَد (ওয়ালাদ)', bengali: 'ওয় / উ', fatha: 'وَ', fathaBn: 'ওয়া', kasra: 'وِ', kasraBn: 'উই', damma: 'وُ', dammaBn: 'উ', sukun: 'وْ', sukunSound: 'ওয়্/উ্', tashdid: 'وّ', tashdidSound: 'ওয়ওয়', tanwinFath: 'وً', tanwinFathBn: 'ওয়ান', tanwinKasr: 'وٍ', tanwinKasrBn: 'উইন', tanwinDamm: 'وٌ', tanwinDammBn: 'উন' },
+      { arabic: 'ي', name: 'ইয়া', pronunciation: 'ব্যঞ্জন হলে y, vowel হলে ī', example: 'يَد (ইয়াদ)', bengali: 'ইয় / ই', fatha: 'يَ', fathaBn: 'ইয়া', kasra: 'يِ', kasraBn: 'ই', damma: 'يُ', dammaBn: 'ইউ', sukun: 'يْ', sukunSound: 'ইয়্/ই্', tashdid: 'يّ', tashdidSound: 'ইয়্য', tanwinFath: 'يً', tanwinFathBn: 'ইয়ান', tanwinKasr: 'يٍ', tanwinKasrBn: 'ইন', tanwinDamm: 'يٌ', tanwinDammBn: 'ইউন' }
+    ];
+
+    const arabicLetters = baseLetters.map(item => ({ ...item, words: wordBank[item.arabic] || [] }));
+
+    const letterMap = {
+      'ء': { name: 'হামযা', base: 'ʼ' }, 'أ': { name: 'হামযা', base: 'ʼ' }, 'إ': { name: 'হামযা', base: 'ʼ' }, 'ا': { name: 'আলিফ', base: 'আ' }, 'آ': { name: 'আলিফ মাদ', base: 'আ' }, 'ب': { name: 'বা', base: 'ব' }, 'ت': { name: 'তা', base: 'ত' }, 'ث': { name: 'থা', base: 'থ' }, 'ج': { name: 'জীম', base: 'জ' }, 'ح': { name: 'হা', base: 'হ' }, 'خ': { name: 'খা', base: 'খ' }, 'د': { name: 'দাল', base: 'দ' }, 'ذ': { name: 'যাল', base: 'ধ' }, 'ر': { name: 'রা', base: 'র' }, 'ز': { name: 'যায়', base: 'য' }, 'س': { name: 'সীন', base: 'স' }, 'ش': { name: 'শীন', base: 'শ' }, 'ص': { name: 'সাদ', base: 'স' }, 'ض': { name: 'দাদ', base: 'দ' }, 'ط': { name: 'তা', base: 'ত' }, 'ظ': { name: 'যা', base: 'য' }, 'ع': { name: 'আইন', base: 'ʿ' }, 'غ': { name: 'গইন', base: 'গ' }, 'ف': { name: 'ফা', base: 'ফ' }, 'ق': { name: 'ক্বাফ', base: 'ক্ব' }, 'ك': { name: 'কাফ', base: 'ক' }, 'ل': { name: 'লাম', base: 'ল' }, 'م': { name: 'মীম', base: 'ম' }, 'ن': { name: 'নূন', base: 'ন' }, 'ه': { name: 'হা', base: 'হ' }, 'و': { name: 'ওয়াও', base: 'ওয়' }, 'ي': { name: 'ইয়া', base: 'ইয়' }
+    };
+
+    let viewedCount = 0;
+    let shuffledLetters = [];
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function createCard(letter, index) {
+      const card = document.createElement('div');
+      card.className = 'card-container';
+      card.style.animationDelay = `${index * 50}ms`;
+      card.innerHTML = `
+        <div class="card">
+          <div class="card-face card-front">${letter.arabic}</div>
+          <div class="card-face card-back">
+            <div class="card-back-content">
+              <div class="info-row"><span class="info-label">নাম:</span><span class="info-value">${letter.name}</span></div>
+              <div class="info-row"><span class="info-label">উচ্চারণ:</span><span class="info-value">${letter.pronunciation}</span></div>
+              <div class="info-row"><span class="info-label">উদাহরণ:</span><span class="info-value">${letter.example}</span></div>
+              <div class="info-row"><span class="info-label">বাংলা কাছাকাছি:</span><span class="info-value">${letter.bengali}</span></div>
+            </div>
+            <div class="button-row">
+              <button class="mini-btn harakat-btn" onclick="event.stopPropagation(); openHarakatModal('${letter.arabic}')">হারাকাত</button>
+              <button class="mini-btn shobdo-btn" onclick="event.stopPropagation(); openShobdoModal('${letter.arabic}')">১০টি শব্দ</button>
+            </div>
+            <div class="button-row-quran">
+              <button class="mini-btn quran-btn" onclick="event.stopPropagation(); openQuranWordModal('${letter.arabic}')">কুরআনের শব্দ</button>
+            </div>
+            <div class="hint">ক্লিক করে উল্টান</div>
+          </div>
+        </div>
+      `;
+      card.addEventListener('click', () => flipCard(card));
+      return card;
+    }
+
+    function flipCard(card) {
+      if (card.classList.contains('flipped')) card.classList.remove('flipped');
+      else {
+        card.classList.add('flipped');
+        if (!card.dataset.viewed) {
+          card.dataset.viewed = 'true';
+          viewedCount++;
+          updateProgress();
+        }
+      }
+    }
+
+    function updateProgress() {
+      document.getElementById('viewed').textContent = viewedCount;
+      document.getElementById('total').textContent = arabicLetters.length;
+    }
+
+    function getHarakatData(arabic) {
+      return arabicLetters.find(l => l.arabic === arabic) || null;
+    }
+
+    function openHarakatModal(arabic) {
+      const data = getHarakatData(arabic);
+      if (!data) return;
+      document.getElementById('modal-letter').textContent = data.arabic;
+      document.getElementById('modal-letter-name').textContent = data.name;
+      document.getElementById('harakat-list').innerHTML = `
+        <div class="harakat-item"><div class="harakat-left"><div class="harakat-name">জবর</div><div class="harakat-arabic">${data.fatha}</div></div><div class="harakat-right"><div class="harakat-sound">${data.fathaBn}</div></div></div>
+        <div class="harakat-item"><div class="harakat-left"><div class="harakat-name">জের</div><div class="harakat-arabic">${data.kasra}</div></div><div class="harakat-right"><div class="harakat-sound">${data.kasraBn}</div></div></div>
+        <div class="harakat-item"><div class="harakat-left"><div class="harakat-name">পেশ</div><div class="harakat-arabic">${data.damma}</div></div><div class="harakat-right"><div class="harakat-sound">${data.dammaBn}</div></div></div>
+        <div class="harakat-item"><div class="harakat-left"><div class="harakat-name">সুকুন</div><div class="harakat-arabic">${data.sukun}</div></div><div class="harakat-right"><div class="harakat-sound">${data.sukunSound}</div></div></div>
+        <div class="harakat-item"><div class="harakat-left"><div class="harakat-name">তাশদীদ</div><div class="harakat-arabic">${data.tashdid}</div></div><div class="harakat-right"><div class="harakat-sound">${data.tashdidSound}</div></div></div>
+        <div class="harakat-item"><div class="harakat-left"><div class="harakat-name">দুই জবর (তানউইন)</div><div class="harakat-arabic">${data.tanwinFath}</div></div><div class="harakat-right"><div class="harakat-sound">${data.tanwinFathBn}</div></div></div>
+        <div class="harakat-item"><div class="harakat-left"><div class="harakat-name">দুই জের (তানউইন)</div><div class="harakat-arabic">${data.tanwinKasr}</div></div><div class="harakat-right"><div class="harakat-sound">${data.tanwinKasrBn}</div></div></div>
+        <div class="harakat-item"><div class="harakat-left"><div class="harakat-name">দুই পেশ (তানউইন)</div><div class="harakat-arabic">${data.tanwinDamm}</div></div><div class="harakat-right"><div class="harakat-sound">${data.tanwinDammBn}</div></div></div>
+      `;
+      document.getElementById('modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeHarakatModal() {
+      document.getElementById('modal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function escapeAttr(value) {
+      return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function openShobdoModal(arabic) {
+      const data = arabicLetters.find(l => l.arabic === arabic);
+      if (!data) return;
+      document.getElementById('shobdo-modal-letter').textContent = data.arabic;
+      document.getElementById('shobdo-modal-letter-name').textContent = data.name;
+      document.getElementById('shobdo-list').innerHTML = data.words.map(word => `
+        <div class="shobdo-item">
+          <span class="shobdo-arabic">${word[0]}</span>
+          <span class="shobdo-bengali">${word[1]} (${word[2]})</span>
+          <button class="shobdo-btn-view" onclick="openWordBreakdown('${escapeAttr(word[0])}', '${escapeAttr(word[1])}')">👉</button>
+        </div>
+      `).join('');
+      document.getElementById('shobdoModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeShobdoModal() {
+      document.getElementById('shobdoModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function openQuranWordModal(arabic) {
+      const data = arabicLetters.find(l => l.arabic === arabic);
+      if (!data) return;
+      const items = (window.quranWordBank && window.quranWordBank[arabic]) || [];
+      document.getElementById('quran-modal-letter').textContent = data.arabic;
+      document.getElementById('quran-modal-letter-name').textContent = data.name;
+      document.getElementById('quran-word-list').innerHTML = items.length
+        ? items.map(item => `
+          <div class="quran-word-item">
+            <span class="shobdo-arabic">${item.arabic}</span>
+            <span class="shobdo-bengali">${item.pronunciation}${item.pronunciationBreakdown ? ` — ${item.pronunciationBreakdown}` : ''}${item.meaning ? ` (${item.meaning})` : ''}</span>
+            <span class="quran-word-line">${item.ayahArabic || 'এই শব্দের জন্য আয়াত এখনো যোগ করা হয়নি।'}</span>
+            <span class="quran-word-line">${item.ayahBreakdown ? 'উচ্চারণ ভেঙে: ' + item.ayahBreakdown : ''}</span>
+            <span class="quran-word-line">${item.ayahMeaning || ''}</span>
+            <span class="quran-word-meta">${item.ayahReference || ''}</span>
+          </div>
+        `).join('')
+        : '<div class="quran-word-item"><span class="shobdo-bengali">এই অক্ষরের জন্য এখনো কুরআনের শব্দ যোগ করা হয়নি।</span></div>';
+      document.getElementById('quranWordModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeQuranWordModal() {
+      document.getElementById('quranWordModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function parseArabicWord(word) {
+      const diacritics = new Set(['َ','ِ','ُ','ْ','ّ','ً','ٌ','ٍ']);
+      const letters = [];
+      let current = null;
+      for (const char of word) {
+        if (diacritics.has(char)) {
+          if (!current) continue;
+          if (char === 'ّ') current.tashdid = true;
+          else current.harakat.push(char);
+        } else {
+          if (current) letters.push(current);
+          current = { letter: char, harakat: [], tashdid: false };
+        }
+      }
+      if (current) letters.push(current);
+      return letters;
+    }
+
+    function getSound(letterData) {
+      const info = letterMap[letterData.letter] || { base: letterData.letter, name: letterData.letter };
+      const base = info.base;
+      const hasFatha = letterData.harakat.includes('َ');
+      const hasKasra = letterData.harakat.includes('ِ');
+      const hasDamma = letterData.harakat.includes('ُ');
+      const hasSukun = letterData.harakat.includes('ْ');
+      const hasTanwinFath = letterData.harakat.includes('ً');
+      const hasTanwinKasr = letterData.harakat.includes('ٍ');
+      const hasTanwinDamm = letterData.harakat.includes('ٌ');
+      if (letterData.letter === 'آ') return 'আ';
+      let sound = base;
+      if (hasFatha) sound = base + 'া';
+      else if (hasKasra) sound = base + 'ি';
+      else if (hasDamma) sound = base + 'ু';
+      else if (hasSukun) sound = base + '্';
+      else if (hasTanwinFath) sound = base + 'ান';
+      else if (hasTanwinKasr) sound = base + 'িন';
+      else if (hasTanwinDamm) sound = base + 'ুন';
+      sound = sound.replace('ওয়া', 'ওয়া').replace('ওয়ি', 'উই').replace('ওয়ু', 'উ').replace('ইয়া', 'ইয়া').replace('ইয়ি', 'ই').replace('ইয়ু', 'ইউ').replace('ʿা', 'আʼ').replace('ʿি', 'ইʼ').replace('ʿু', 'উʼ').replace('ʿ্', 'ʿ').replace('ʼা', 'আʼ').replace('ʼি', 'ইʼ').replace('ʼু', 'উʼ').replace('ʼ্', 'ʼ');
+      if (letterData.tashdid) sound = sound + sound;
+      return sound;
+    }
+
+    function openWordBreakdown(arabicWord, bengaliWord) {
+      document.getElementById('wb-arabic').textContent = arabicWord;
+      document.getElementById('wb-bengali').textContent = bengaliWord;
+      const parsed = parseArabicWord(arabicWord);
+      let content = '';
+      let fullBengali = '';
+      const lessons = [];
+      const seen = new Set();
+      parsed.forEach((item, idx) => {
+        const letterInfo = letterMap[item.letter] || { name: item.letter, base: item.letter };
+        const sound = getSound(item);
+        fullBengali += sound;
+        let harakatInfo = 'কোনো হারাকাত নেই';
+        let tip = 'ব্যঞ্জনের মূল ধ্বনি';
+        if (item.tashdid) {
+          const key = 'তাশদীদ ّ → ধ্বনি দ্বিগুণ করে';
+          if (!seen.has(key)) { seen.add(key); lessons.push(key); }
+        }
+        if (item.harakat.includes('َ')) harakatInfo = 'জবর';
+        else if (item.harakat.includes('ِ')) harakatInfo = 'জের';
+        else if (item.harakat.includes('ُ')) harakatInfo = 'পেশ';
+        else if (item.harakat.includes('ْ')) harakatInfo = 'সুকুন';
+        else if (item.harakat.includes('ً')) harakatInfo = 'দুই জবর';
+        else if (item.harakat.includes('ٍ')) harakatInfo = 'দুই জের';
+        else if (item.harakat.includes('ٌ')) harakatInfo = 'দুই পেশ';
+        if (item.letter === 'ع') tip = 'আইন → গলার ভেতরের ধাক্কা';
+        if (item.letter === 'ء' || item.letter === 'أ' || item.letter === 'إ') tip = 'হামযা → গলার থামা/কাটা';
+        content += `
+          <div class="word-letter-item">
+            <div class="word-letter-header">
+              <span class="word-letter-num">${idx + 1}</span>
+              <span class="word-letter-arabic">${item.letter}${item.harakat.join('')}${item.tashdid ? 'ّ' : ''} (${letterInfo.name})</span>
+            </div>
+            <div class="word-letter-content">
+              <div>${letterInfo.name} + ${harakatInfo}${item.tashdid ? ' + তাশদীদ' : ''}</div>
+              <div class="word-letter-formula">👉 <span class="letter">${item.letter}${item.harakat.join('')}${item.tashdid ? 'ّ' : ''}</span> = <span class="word-letter-result">${sound}</span></div>
+              <span class="word-letter-tip">✔️ ${tip}</span>
+            </div>
+          </div>
+        `;
+      });
+      const summaryArabic = parsed.map(p => p.letter + p.harakat.join('') + (p.tashdid ? 'ّ' : '')).join(' + ');
+      document.getElementById('wb-content').innerHTML = `
+        <div class="word-breakdown-section">${content}</div>
+        <div class="word-breakdown-summary">
+          <div class="word-summary-label">সব মিলিয়ে:</div>
+          <div class="word-summary-arabic">${summaryArabic}</div>
+          <div class="word-summary-bengali">👉 ${fullBengali}</div>
+        </div>
+        <div class="word-breakdown-lessons">
+          <div class="word-lessons-title">কী শিখলে?</div>
+          ${[...new Set(lessons)].map(l => `<div class="word-lesson-item">${l}</div>`).join('') || '<div class="word-lesson-item">শব্দ ভেঙে অক্ষর + হারাকাত মিলিয়ে পড়তে হবে</div>'}
+        </div>
+      `;
+      document.getElementById('wordBreakdownModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeWordBreakdownModal() {
+      document.getElementById('wordBreakdownModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function openFullTable() {
+      const harakatTbody = document.getElementById('harakatTableBody');
+      harakatTbody.innerHTML = '';
+      arabicLetters.forEach(letter => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><div class="letter-cell"><span class="arabic-char">${letter.arabic}</span><span class="bengali-name">${letter.name}</span></div></td>
+          <td class="sound-cell"><span class="arabic">${letter.fatha}</span><span class="bengali">${letter.fathaBn}</span></td>
+          <td class="sound-cell"><span class="arabic">${letter.kasra}</span><span class="bengali">${letter.kasraBn}</span></td>
+          <td class="sound-cell"><span class="arabic">${letter.damma}</span><span class="bengali">${letter.dammaBn}</span></td>
+          <td class="sound-cell"><span class="arabic">${letter.sukun}</span><span class="bengali">${letter.sukunSound}</span></td>
+          <td class="sound-cell"><span class="arabic">${letter.tashdid}</span><span class="bengali">${letter.tashdidSound}</span></td>
+          <td class="sound-cell"><span class="arabic">${letter.tanwinFath}</span><span class="bengali">${letter.tanwinFathBn}</span></td>
+          <td class="sound-cell"><span class="arabic">${letter.tanwinKasr}</span><span class="bengali">${letter.tanwinKasrBn}</span></td>
+          <td class="sound-cell"><span class="arabic">${letter.tanwinDamm}</span><span class="bengali">${letter.tanwinDammBn}</span></td>
+        `;
+        harakatTbody.appendChild(row);
+      });
+      const shobdoTbody = document.getElementById('shobdoTableBody');
+      shobdoTbody.innerHTML = '';
+      arabicLetters.forEach(letter => {
+        const wordsList = letter.words.map(w => `${w[0]} (${w[1]}) - ${w[2]}`).join(' | ');
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><div class="letter-cell"><span class="arabic-char">${letter.arabic}</span><span class="bengali-name">${letter.name}</span></div></td>
+          <td style="text-align:left; font-size:.85rem; color:#16213E;">${wordsList}</td>
+        `;
+        shobdoTbody.appendChild(row);
+      });
+      document.getElementById('fullTableModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeFullTable() {
+      document.getElementById('fullTableModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function resetAll() {
+      viewedCount = 0;
+      updateProgress();
+      shuffledLetters = shuffle(arabicLetters);
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      shuffledLetters.forEach((letter, index) => grid.appendChild(createCard(letter, index)));
+    }
+
+    document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeHarakatModal(); });
+    document.getElementById('shobdoModal').addEventListener('click', function(e) { if (e.target === this) closeShobdoModal(); });
+    document.getElementById('quranWordModal').addEventListener('click', function(e) { if (e.target === this) closeQuranWordModal(); });
+    document.getElementById('wordBreakdownModal').addEventListener('click', function(e) { if (e.target === this) closeWordBreakdownModal(); });
+    document.getElementById('fullTableModal').addEventListener('click', function(e) { if (e.target === this) closeFullTable(); });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { closeHarakatModal(); closeShobdoModal(); closeQuranWordModal(); closeWordBreakdownModal(); closeFullTable(); }
+    });
+
+    resetAll();
+  </script>
+</body>
+</html>
